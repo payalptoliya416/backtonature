@@ -1,0 +1,664 @@
+---
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { getImg } from "../utils/images";
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  canonicalUrl?: string;
+  bodyClass?: string;
+}
+
+const {
+  title = "Back to Nature: Your Glamping Retreat in Cyprus",
+  description = "Reconnect with serenity at BackToNature. Enjoy glamping in nature with cozy cabins and stunning riverside views. Book your escape now!",
+  image = getImg("House-6-Mandarin-thumbnail.webp"),
+  canonicalUrl = Astro.url.href,
+  bodyClass,
+} = Astro.props;
+
+const faviconImg = getImg("cropped-Back-to-Nature-logo-1-32x32.png", "/images/cropped-Back-to-Nature-logo.png");
+const isHome = Astro.url.pathname === '/' || Astro.url.pathname === '';
+const isAccommodation = Astro.url.pathname.includes('/accommodation/');
+
+const defaultBodyClass = isHome
+  ? "home is-home wp-singular page-template page-template-elementor_header_footer page wp-custom-logo wp-embed-responsive wp-theme-activland wp-child-theme-activland-child ehf-header ehf-footer ehf-template-activland ehf-stylesheet-activland-child no-wc-breadcrumb elementor-default elementor-template-full-width elementor-kit-8 elementor-page"
+  : isAccommodation
+    ? "wp-singular accommodation-template-default single single-accommodation wp-custom-logo wp-embed-responsive wp-theme-activland wp-child-theme-activland-child ehf-header ehf-footer ehf-template-activland ehf-stylesheet-activland-child no-wc-breadcrumb activland-full-width-content has-post-thumbnail elementor-default elementor-kit-8 elementor-page"
+    : "wp-singular page-template page-template-elementor_header_footer page wp-custom-logo wp-embed-responsive wp-theme-activland wp-child-theme-activland-child ehf-header ehf-footer ehf-template-activland ehf-stylesheet-activland-child no-wc-breadcrumb elementor-default elementor-template-full-width elementor-kit-8 elementor-page";
+
+const finalBodyClass = bodyClass ? `${defaultBodyClass} ${bodyClass}` : defaultBodyClass;
+---
+
+<!doctype html>
+<html lang="en-GB" prefix="og: https://ogp.me/ns#">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="icon" type="image/png" href={faviconImg} />
+
+    <!-- Open Graph -->
+    <meta property="og:locale" content="en_GB" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:site_name" content="Back To Nature - Events & Glamping Resort" />
+    <meta property="og:image" content={image} />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={image} />
+
+    <!-- Fonts & External Stylesheets matching Live Site -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Domine:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&family=Rubik:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&display=swap" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/elementor-icons/5.23.0/elementor-icons.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css?ver=7.1" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css?ver=7.1" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css?ver=7.1" />
+    
+    <!-- Complete Live Site CSS Bundle -->
+    <link rel="stylesheet" href="/css/bundle.css" />
+
+    <style is:inline>
+      :root {
+        --e-global-typography-primary-font-family: 'Poppins', sans-serif;
+        --e-global-typography-secondary-font-family: 'Rubik', sans-serif;
+        --e-global-typography-text-font-family: 'Poppins', sans-serif;
+        --e-global-typography-accent-font-family: 'Poppins', sans-serif;
+        --e-global-typography-heading_title-font-family: 'Rubik', sans-serif;
+        --e-global-typography-heading_text-font-family: 'Poppins', sans-serif;
+        --e-global-typography-heading_sub-font-family: 'Poppins', sans-serif;
+      }
+      body {
+        --primary: #ff4d00;
+        --primary_hover: #e54500;
+        --secondary: #5b320d;
+        --secondary_hover: #512d0b;
+        --text: #666666;
+        --accent: #000000;
+        --lighter: #999999;
+        --border: #E5E5E5;
+        font-family: 'Poppins', sans-serif;
+        color: #494949;
+        background-color: #ffffff;
+      }
+      body, p, a, span, li, input, select, textarea, button, .elementor-button, .premium-bullet-text {
+        font-family: 'Poppins', sans-serif;
+      }
+      h1, h2, h3, h4, h5, h6, .elementor-heading-title, .title-color, .activland-title {
+        font-family: 'Rubik', 'Poppins', sans-serif;
+      }
+      .eicon-star:before {
+        content: "\f005" !important;
+        font-family: "Font Awesome 6 Free", "Font Awesome 5 Free", "FontAwesome", sans-serif !important;
+        font-weight: 900 !important;
+        color: #FFA800 !important;
+        display: inline-block;
+      }
+      .eicon-menu-bar:before {
+        content: "\f0c9" !important;
+        font-family: "Font Awesome 6 Free", "Font Awesome 5 Free", "FontAwesome", sans-serif !important;
+        font-weight: 900 !important;
+        display: inline-block;
+      }
+      .eicon-close:before {
+        content: "\f00d" !important;
+        font-family: "Font Awesome 6 Free", "Font Awesome 5 Free", "FontAwesome", sans-serif !important;
+        font-weight: 900 !important;
+        display: inline-block;
+      }
+      body.is-home .breadcrumb-wrap {
+        display: none !important;
+      }
+      .breadcrumb-wrap {
+        display: block;
+      }
+      .logocentral img {
+        height: 85px;
+        width: auto;
+      }
+      .menu-item a {
+        height: max-content;
+      }
+      .elementor-nav-menu--layout-horizontal .elementor-nav-menu {
+        align-items: center;
+      }
+      .title-color {
+        color: #D57800;
+      }
+      .about-icoin-list .elementor-icon-list-item {
+        background: linear-gradient(73deg, #f0f1f0, #fefefe) !important;
+        padding: 10px 15px !important;
+        border-radius: 4px !important;
+      }
+      .discover-section .elementor-icon-list-item {
+        background: linear-gradient(85deg, #2F3F31, #0d1a1200);
+        padding: 10px 15px !important;
+        border-radius: 4px !important;
+      }
+      .elementor-accordion-item {
+        background-color: #f6f7f6;
+        border: none !important;
+        border-radius: 6px;
+        padding: 10px 25px;
+        margin-bottom: 25px !important;
+      }
+      .elementor-tab-title.elementor-active {
+        border-bottom: 1px solid #e0e3e0;
+      }
+      .elementor-tab-content p {
+        margin-bottom: 0 !important;
+      }
+      @media (max-width: 1024px) {
+        .video-after:after {
+          display: none;
+        }
+        .hero-title-after:after, .book-after:after, .cabin-after:after, .discover-title-after:after, .private-title-after:after, .review-after:after, .fun-after:after, .faq-after:after, .footer-title-after:after {
+          display: none;
+        }
+      }
+      .elementor-invisible {
+        visibility: visible !important;
+        opacity: 1 !important;
+      }
+      
+      /* --- Vertical Auto-Scrolling Carousel (What our Client Say) --- */
+      .premium-adv-carousel__vertical {
+        height: 520px !important;
+        overflow: hidden !important;
+      }
+      .premium-adv-carousel__vertical .premium-adv-carousel__container {
+        height: 520px !important;
+        overflow: hidden !important;
+        position: relative !important;
+        mask-image: linear-gradient(to bottom, transparent, black 6%, black 94%, transparent);
+        -webkit-mask-image: linear-gradient(to bottom, transparent, black 6%, black 94%, transparent);
+      }
+      .premium-adv-carousel__vertical .premium-adv-carousel__inner-container {
+        height: 100% !important;
+        overflow: hidden !important;
+        visibility: visible !important;
+      }
+      .premium-adv-carousel__vertical .premium-adv-carousel__items {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 16px !important;
+        width: 100% !important;
+        will-change: transform;
+        padding: 10px 0 !important;
+      }
+      .premium-adv-carousel__vertical .premium-adv-carousel__item-outer-wrapper {
+        width: 100% !important;
+        flex: 0 0 auto !important;
+        max-width: 100% !important;
+      }
+      .premium-adv-carousel__vertical .premium-adv-carousel__template-wrapper {
+        background: #ffffff !important;
+        border-radius: 14px !important;
+        /* padding: 24px !important; */
+        box-shadow: 0 8px 24px rgba(0,0,0,0.06) !important;
+        border: 1px solid #f0f1f0 !important;
+      }
+
+      /* --- Horizontal Auto-Scrolling 3D Photo Wheel Carousel --- */
+      .premium-adv-carousel__horizontal {
+        width: 100% !important;
+        overflow: hidden !important;
+      }
+      .premium-adv-carousel__horizontal .premium-adv-carousel__container {
+        width: 100% !important;
+        overflow: hidden !important;
+        position: relative !important;
+        padding: 25px 0 !important;
+        mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+        -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+      }
+      .premium-adv-carousel__horizontal .premium-adv-carousel__inner-container {
+        width: 100% !important;
+        overflow: hidden !important;
+        visibility: visible !important;
+      }
+      .premium-adv-carousel__horizontal .premium-adv-carousel__items {
+        display: flex !important;
+        flex-direction: row !important;
+        gap: 20px !important;
+        width: max-content !important;
+        align-items: center !important;
+        will-change: transform;
+      }
+      .premium-adv-carousel__horizontal .premium-adv-carousel__item-outer-wrapper {
+        flex: 0 0 360px !important;
+        width: 360px !important;
+        max-width: 360px !important;
+      }
+      .premium-adv-carousel__horizontal .premium-adv-carousel__item-image img,
+      .premium-adv-carousel__horizontal .premium-adv-carousel__item-img img {
+        border-radius: 12px !important;
+        width: 100% !important;
+        height: 250px !important;
+        object-fit: cover !important;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.08) !important;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+      .premium-adv-carousel__horizontal .premium-adv-carousel__item-outer-wrapper:hover img {
+        transform: translateY(-4px) scale(1.02);
+        box-shadow: 0 15px 35px rgba(0,0,0,0.18) !important;
+      }
+
+      /* --- Standard Carousel Slider (Homepage & Accommodation Cards) --- */
+      .premium-carousel-hidden {
+        display: block !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+      }
+      .premium-carousel-wrapper {
+        position: relative !important;
+        width: 100% !important;
+        overflow: hidden !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+      }
+      .premium-carousel-inner {
+        display: flex !important;
+        width: 100% !important;
+        transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1) !important;
+        opacity: 1 !important;
+      }
+      .premium-carousel-template {
+        flex: 0 0 100% !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+        background: #ffffff !important;
+        border-radius: 16px !important;
+        padding: 40px !important;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.06) !important;
+        border: 1px solid #f0f1f0 !important;
+      }
+      .premium-carousel-nav-arrow-prev, .premium-carousel-nav-arrow-next {
+        display: flex !important;
+        position: absolute !important;
+        top: 50% !important;
+        transform: translateY(-50%) !important;
+        z-index: 10 !important;
+        cursor: pointer !important;
+      }
+      .premium-carousel-nav-arrow-prev { left: 10px !important; }
+      .premium-carousel-nav-arrow-next { right: 10px !important; }
+      .premium-carousel-nav-arrow-prev a, .premium-carousel-nav-arrow-next a {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: 44px !important;
+        height: 44px !important;
+        background: #ffffff !important;
+        border-radius: 50% !important;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.12) !important;
+        color: #1A2C1D !important;
+        font-size: 16px !important;
+        transition: all 0.2s ease !important;
+        text-decoration: none !important;
+      }
+      .premium-carousel-nav-arrow-prev a:hover, .premium-carousel-nav-arrow-next a:hover {
+        background: #D57800 !important;
+        color: #ffffff !important;
+        transform: scale(1.1) !important;
+      }
+      @media (max-width: 480px) {
+        .elementor-accordion-item {
+          padding: 10px 10px;
+        }
+        #page .site-content {
+          margin-top: 0px !important;
+          margin-bottom: 0px !important;
+        }
+        .premium-adv-carousel__horizontal .premium-adv-carousel__item-outer-wrapper {
+          flex: 0 0 280px !important;
+          width: 280px !important;
+          max-width: 280px !important;
+        }
+      }
+
+      /* --- Premium Progress Bar Styles & Animation --- */
+      .premium-progressbar-container {
+        position: relative !important;
+        margin-bottom: 8px !important;
+      }
+      .premium-progressbar-left-label {
+        float: left !important;
+        color: #3D3D3D !important;
+        font-family: 'Rubik', 'Poppins', sans-serif !important;
+        font-weight: 500 !important;
+        font-size: 15px !important;
+        line-height: 1.4 !important;
+        margin: 0 0 6px 0 !important;
+      }
+      .premium-progressbar-right-label {
+        float: right !important;
+        color: #3D3D3D !important;
+        font-family: 'Rubik', 'Poppins', sans-serif !important;
+        font-weight: 500 !important;
+        font-size: 15px !important;
+        line-height: 1.4 !important;
+        margin: 0 0 6px 0 !important;
+      }
+      .premium-progressbar-bar-wrap {
+        position: relative !important;
+        text-align: start !important;
+        overflow: hidden !important;
+        height: 10px !important;
+        background-color: #EBEBEB !important;
+        border-radius: 50px !important;
+        clear: both !important;
+        margin: 0 0 16px 0 !important;
+        box-shadow: none !important;
+      }
+      .premium-progressbar-bar {
+        float: left !important;
+        width: 0% !important;
+        height: 10px !important;
+        background-color: #FFD900 !important;
+        border-radius: 50px !important;
+        position: relative !important;
+        overflow: hidden !important;
+        transition: width 1.2s cubic-bezier(0.25, 1, 0.5, 1) !important;
+        box-shadow: none !important;
+      }
+    </style>
+  </head>
+  <body class={finalBodyClass}>
+    <div id="page" class="hfeed site">
+      <Header />
+      
+      <main id="content" class="site-content">
+        <slot />
+      </main>
+
+      <Footer />
+    </div>
+
+    <!-- Complete Interactive Elements & Auto-Slider Engine Script -->
+    <script is:inline>
+      document.addEventListener('DOMContentLoaded', () => {
+        // 1. Elementor Accordion Toggle
+        const accordionTitles = document.querySelectorAll('.elementor-tab-title');
+        accordionTitles.forEach((title) => {
+          title.addEventListener('click', () => {
+            const isActive = title.classList.contains('elementor-active');
+            const tabId = title.getAttribute('data-tab');
+            const content = document.querySelector(`.elementor-tab-content[data-tab="${tabId}"]`);
+            
+            if (isActive) {
+              title.classList.remove('elementor-active');
+              if (content) content.style.display = 'none';
+            } else {
+              title.classList.add('elementor-active');
+              if (content) content.style.display = 'block';
+            }
+          });
+        });
+
+        // 2. Hamburger Mobile Menu Toggle
+        const toggleBtn = document.querySelector('.elementor-menu-toggle');
+        const mobileNav = document.querySelector('.elementor-nav-menu--dropdown');
+        if (toggleBtn && mobileNav) {
+          toggleBtn.addEventListener('click', () => {
+            const isOpened = toggleBtn.classList.contains('elementor-active');
+            if (isOpened) {
+              toggleBtn.classList.remove('elementor-active');
+              mobileNav.style.display = 'none';
+            } else {
+              toggleBtn.classList.add('elementor-active');
+              mobileNav.style.display = 'block';
+            }
+          });
+        }
+
+        // 3. Horizontal Infinite Auto-Scroll Carousel Engine
+        const hContainers = document.querySelectorAll('.premium-adv-carousel__horizontal');
+        hContainers.forEach(container => {
+          const list = container.querySelector('.premium-adv-carousel__items');
+          if (!list || list.getAttribute('data-marquee-init')) return;
+          list.setAttribute('data-marquee-init', 'true');
+
+          const originalItems = Array.from(list.children);
+          if (originalItems.length === 0) return;
+
+          // Duplicate items twice for seamless continuous loop
+          originalItems.forEach(item => list.appendChild(item.cloneNode(true)));
+          originalItems.forEach(item => list.appendChild(item.cloneNode(true)));
+
+          let offset = 0;
+          let paused = false;
+          const speed = 0.8; // px per frame (~50px/sec)
+
+          container.addEventListener('mouseenter', () => paused = true);
+          container.addEventListener('mouseleave', () => paused = false);
+
+          function getSingleSetWidth() {
+            let w = 0;
+            for (let i = 0; i < originalItems.length; i++) {
+              const el = list.children[i];
+              if (el) w += el.getBoundingClientRect().width + 20;
+            }
+            return w > 0 ? w : 1200;
+          }
+
+          let singleSetWidth = getSingleSetWidth();
+          window.addEventListener('resize', () => {
+            singleSetWidth = getSingleSetWidth();
+          });
+
+          function stepH() {
+            if (!paused) {
+              offset += speed;
+              if (offset >= singleSetWidth) {
+                offset -= singleSetWidth;
+              }
+              list.style.transform = `translateX(-${offset}px)`;
+            }
+            requestAnimationFrame(stepH);
+          }
+          requestAnimationFrame(stepH);
+        });
+
+        // 4. Vertical Infinite Auto-Scroll Testimonials Carousel Engine (What our Client Say)
+        const vContainers = document.querySelectorAll('.premium-adv-carousel__vertical');
+        vContainers.forEach((container, idx) => {
+          const list = container.querySelector('.premium-adv-carousel__items');
+          if (!list || list.getAttribute('data-vmarquee-init')) return;
+          list.setAttribute('data-vmarquee-init', 'true');
+
+          const originalItems = Array.from(list.children);
+          if (originalItems.length === 0) return;
+
+          // Duplicate items twice for seamless continuous loop
+          originalItems.forEach(item => list.appendChild(item.cloneNode(true)));
+          originalItems.forEach(item => list.appendChild(item.cloneNode(true)));
+
+          let offset = 0;
+          let paused = false;
+          const isReverse = container.getAttribute('data-settings')?.includes('reverse') || (idx % 2 === 1);
+          const speed = 0.6; // px per frame (~36px/sec)
+
+          container.addEventListener('mouseenter', () => paused = true);
+          container.addEventListener('mouseleave', () => paused = false);
+
+          function getSingleSetHeight() {
+            let h = 0;
+            for (let i = 0; i < originalItems.length; i++) {
+              const el = list.children[i];
+              if (el) h += el.getBoundingClientRect().height + 16;
+            }
+            return h > 0 ? h : 600;
+          }
+
+          let singleSetHeight = getSingleSetHeight();
+          window.addEventListener('resize', () => {
+            singleSetHeight = getSingleSetHeight();
+          });
+
+          if (isReverse) {
+            offset = singleSetHeight;
+          }
+
+          function stepV() {
+            if (!paused) {
+              if (isReverse) {
+                offset -= speed;
+                if (offset <= 0) {
+                  offset += singleSetHeight;
+                }
+              } else {
+                offset += speed;
+                if (offset >= singleSetHeight) {
+                  offset -= singleSetHeight;
+                }
+              }
+              list.style.transform = `translateY(-${offset}px)`;
+            }
+            requestAnimationFrame(stepV);
+          }
+          requestAnimationFrame(stepV);
+        });
+
+        // 5. Standard Card Carousel Slider (Homepage & Happy Guests Reviews)
+        const cWrappers = document.querySelectorAll('.premium-carousel-wrapper');
+        cWrappers.forEach(wrapper => {
+          if (wrapper.getAttribute('data-carousel-init')) return;
+          wrapper.setAttribute('data-carousel-init', 'true');
+
+          const inner = wrapper.querySelector('.premium-carousel-inner');
+          if (!inner) return;
+          const slides = Array.from(inner.querySelectorAll('.premium-carousel-template, .slick-slide'));
+          if (slides.length <= 1) return;
+
+          let currentIdx = 0;
+          let autoPlayTimer = null;
+
+          function updateSlide() {
+            inner.style.transform = `translateX(-${currentIdx * 100}%)`;
+          }
+
+          function nextSlide() {
+            currentIdx = (currentIdx + 1) % slides.length;
+            updateSlide();
+          }
+
+          function prevSlide() {
+            currentIdx = (currentIdx - 1 + slides.length) % slides.length;
+            updateSlide();
+          }
+
+          function startAutoPlay() {
+            stopAutoPlay();
+            autoPlayTimer = setInterval(nextSlide, 4500);
+          }
+
+          function stopAutoPlay() {
+            if (autoPlayTimer) clearInterval(autoPlayTimer);
+          }
+
+          const nextBtn = wrapper.querySelector('.premium-carousel-nav-arrow-next, .carousel-next');
+          const prevBtn = wrapper.querySelector('.premium-carousel-nav-arrow-prev, .carousel-prev');
+
+          if (nextBtn) {
+            nextBtn.addEventListener('click', (e) => {
+              e.preventDefault();
+              nextSlide();
+              startAutoPlay();
+            });
+          }
+          if (prevBtn) {
+            prevBtn.addEventListener('click', (e) => {
+              e.preventDefault();
+              prevSlide();
+              startAutoPlay();
+            });
+          }
+
+          wrapper.addEventListener('mouseenter', stopAutoPlay);
+          wrapper.addEventListener('mouseleave', startAutoPlay);
+
+          // Touch swipe support
+          let startX = 0;
+          wrapper.addEventListener('touchstart', (e) => {
+            startX = e.touches[0].clientX;
+            stopAutoPlay();
+          }, { passive: true });
+
+          wrapper.addEventListener('touchend', (e) => {
+            const endX = e.changedTouches[0].clientX;
+            if (startX - endX > 50) nextSlide();
+            else if (endX - startX > 50) prevSlide();
+            startAutoPlay();
+          }, { passive: true });
+
+          startAutoPlay();
+        });
+
+        // 5. Scroll-Triggered Progress Bar Animation
+        const pbContainers = document.querySelectorAll('.premium-progressbar-container');
+        if (pbContainers.length > 0) {
+          const pbObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                const container = entry.target;
+                const bar = container.querySelector('.premium-progressbar-bar');
+                if (bar && !bar.classList.contains('is-animated')) {
+                  let targetLength = 100;
+                  try {
+                    const rawSettings = container.getAttribute('data-settings');
+                    if (rawSettings) {
+                      const settings = JSON.parse(rawSettings);
+                      if (settings.progress_length) {
+                        targetLength = parseFloat(settings.progress_length);
+                      }
+                    }
+                  } catch (e) {}
+
+                  if (targetLength === 100) {
+                    const rightLabel = container.querySelector('.premium-progressbar-right-label');
+                    if (rightLabel) {
+                      const val = parseFloat(rightLabel.textContent.trim());
+                      if (!isNaN(val)) {
+                        if (val <= 5) {
+                          targetLength = (val / 5) * 100;
+                        } else if (val <= 10) {
+                          targetLength = (val / 10) * 100;
+                        }
+                      }
+                    }
+                  }
+
+                  // Smooth fill animation
+                  setTimeout(() => {
+                    bar.style.width = targetLength + '%';
+                    bar.classList.add('is-animated');
+                  }, 80);
+
+                  observer.unobserve(container);
+                }
+              }
+            });
+          }, {
+            threshold: 0.15,
+            rootMargin: '0px 0px -30px 0px'
+          });
+
+          pbContainers.forEach((c) => pbObserver.observe(c));
+        }
+      });
+    </script>
+  </body>
+</html>

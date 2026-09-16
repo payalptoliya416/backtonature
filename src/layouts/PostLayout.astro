@@ -1,0 +1,51 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  date: string;
+  description?: string;
+  heroImage?: string;
+  heroImageAlt?: string;
+  categories?: string[];
+  tags?: string[];
+}
+
+const { title, date, description, heroImage, heroImageAlt, categories, tags } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {description && <meta name="description" content={description} />}
+    <title>{title}</title>
+  </head>
+  <body>
+    <header>
+      <nav>
+        <a href="/">Home</a>
+        <a href="/blog">Blog</a>
+      </nav>
+    </header>
+    <main>
+      <article>
+        <h1>{title}</h1>
+        <time datetime={date}>{new Date(date).toLocaleDateString()}</time>
+        {heroImage && <img src={heroImage} alt={heroImageAlt ?? ""} />}
+        {categories && categories.length > 0 && (
+          <div class="categories">
+            {categories.map((cat) => <span>{cat}</span>)}
+          </div>
+        )}
+        <slot />
+        {tags && tags.length > 0 && (
+          <div class="tags">
+            {tags.map((tag) => <span>#{tag}</span>)}
+          </div>
+        )}
+      </article>
+    </main>
+  </body>
+</html>
