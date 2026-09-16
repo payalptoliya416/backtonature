@@ -7,5 +7,9 @@ const rawContent = "<div class=\"breadcrumb-wrap\"><div data-elementor-type=\"wp
 <BaseLayout
   title="Glamping Resort Cyprus | Back to Nature"
 >
+  <link rel="stylesheet" href="/css/Calender.css" />
   <div class="entry-content" set:html={rawContent} />
+
+  <script is:inline src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script is:inline src="/js/Calender.js"></script>
 </BaseLayout>

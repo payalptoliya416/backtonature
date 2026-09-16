@@ -461,14 +461,32 @@ const finalBodyClass = bodyClass ? `${defaultBodyClass} ${bodyClass}` : defaultB
         background: transparent !important;
       }
       #booking-iframe {
-        width: 320px !important;
-        max-width: 100% !important;
+        width: 100% !important;
+        max-width: 384px !important;
         min-height: 686px !important;
         border-radius: 12px;
         background: #ffffff;
         display: block;
         margin: 0 auto;
         border: none !important;
+      }
+      #bookingForm {
+        width: 100% !important;
+        max-width: 384px !important;
+        box-sizing: border-box !important;
+        overflow-x: hidden !important;
+        margin: 0 auto !important;
+      }
+      #bookingForm * {
+        box-sizing: border-box !important;
+      }
+      #calendar-container {
+        width: 100% !important;
+        overflow: visible !important;
+      }
+      .flatpickr-calendar {
+        max-width: 100% !important;
+        margin: 0 auto !important;
       }
       .sticky-placeholder {
         max-width: 100%;
@@ -481,7 +499,7 @@ const finalBodyClass = bodyClass ? `${defaultBodyClass} ${bodyClass}` : defaultB
         .sticky-div div:first-child {
           position: static !important;
           width: 100% !important;
-          max-width: 340px !important;
+          max-width: 384px !important;
           margin: 0 auto !important;
           height: auto !important;
           box-shadow: none !important;
@@ -493,8 +511,8 @@ const finalBodyClass = bodyClass ? `${defaultBodyClass} ${bodyClass}` : defaultB
           margin: 20px auto !important;
         }
         #booking-iframe {
-          width: 320px !important;
-          max-width: 100% !important;
+          width: 100% !important;
+          max-width: 384px !important;
           min-height: 686px !important;
           margin: 0 auto !important;
           display: block !important;
@@ -503,9 +521,13 @@ const finalBodyClass = bodyClass ? `${defaultBodyClass} ${bodyClass}` : defaultB
       @media (max-width: 480px) {
         #booking-iframe {
           width: 100% !important;
-          max-width: 320px !important;
+          max-width: 100% !important;
           min-height: 686px !important;
           margin: 0 auto !important;
+        }
+        #bookingForm {
+          max-width: 100% !important;
+          padding: 0.8rem !important;
         }
       }
     </style>
@@ -894,8 +916,9 @@ const finalBodyClass = bodyClass ? `${defaultBodyClass} ${bodyClass}` : defaultB
               const footer = document.querySelector('#colophon, footer, .footer-section, .elementor-location-footer');
               const scrollTop = window.scrollY || window.pageYOffset;
               
-              const iframe = widget.querySelector('#booking-iframe');
-              const widgetWidth = iframe ? 320 : (Math.min(320, widget.offsetWidth || parent.offsetWidth || 320));
+              const widgetWidth = (placeholder && placeholder.style.display !== 'none')
+                ? placeholder.getBoundingClientRect().width
+                : widget.getBoundingClientRect().width;
               const widgetHeight = widget.offsetHeight || 686;
               const parentTop = parent.getBoundingClientRect().top + scrollTop;
               const marginTop = 30;
