@@ -6,39 +6,50 @@ window.updateGuestSummary = updateGuestSummary;
 window.updateCount = updateCount;
 
 function toggleGuestPopup() {
-    document.getElementById("guestPopup").classList.toggle("d-none");
+    const popup = document.getElementById("guestPopup");
+    if (popup) popup.classList.toggle("d-none");
 }
 
 function closeGuestPopup() {
-    document.getElementById("guestPopup").classList.add("d-none");
+    const popup = document.getElementById("guestPopup");
+    if (popup) popup.classList.add("d-none");
     updateGuestSummary();
 }
 
 function updateGuestSummary() {
-    let adults = parseInt(document.getElementById("adults").value);
-    let children = parseInt(document.getElementById("children").value);
-    let infants = parseInt(document.getElementById("infants").value);
-    let pets = parseInt(document.getElementById("pets").value);
+    const adultsEl = document.getElementById("adults");
+    const childrenEl = document.getElementById("children");
+    const infantsEl = document.getElementById("infants");
+    const petsEl = document.getElementById("pets");
+    const summaryEl = document.getElementById("guestSummary");
+
+    if (!adultsEl || !summaryEl) return;
+
+    let adults = parseInt(adultsEl.value) || 0;
+    let children = childrenEl ? (parseInt(childrenEl.value) || 0) : 0;
+    let infants = infantsEl ? (parseInt(infantsEl.value) || 0) : 0;
+    let pets = petsEl ? (parseInt(petsEl.value) || 0) : 0;
 
     let summary = adults + " adult" + (adults > 1 ? "s" : "");
     if (children > 0) summary += ", " + children + " child" + (children > 1 ? "ren" : "");
     if (infants > 0) summary += ", " + infants + " infant" + (infants > 1 ? "s" : "");
     if (pets > 0) summary += ", " + pets + " pet" + (pets > 1 ? "s" : "");
 
-    document.getElementById("guestSummary").innerText = summary;
+    summaryEl.innerText = summary;
 }
 
 function updateCount(id, change) {
     const el = document.getElementById(id);
+    if (!el) return;
     let value = parseInt(el.value) || 0;
 
     if (id === "adults" && value + change < 1) return;
     if (id === "pets" && change > 0 && value >= 1) return;
 
     if (id === "adults" || id === "children") {
-        let total =
-            parseInt(document.getElementById("adults").value) +
-            parseInt(document.getElementById("children").value);
+        const adultsVal = parseInt(document.getElementById("adults")?.value || 0);
+        const childrenVal = parseInt(document.getElementById("children")?.value || 0);
+        let total = adultsVal + childrenVal;
         if (change > 0 && total >= 6) return;
     }
 
@@ -55,13 +66,17 @@ function updateCount(id, change) {
 
 document.addEventListener("click", function (event) {
     const popup = document.getElementById("guestPopup");
-    const trigger = document.getElementById("guestSummary").parentElement;
-    if (!popup.contains(event.target) && !trigger.contains(event.target)) {
+    const summary = document.getElementById("guestSummary");
+    if (!popup || !summary) return;
+    const trigger = summary.parentElement;
+    if (trigger && !popup.contains(event.target) && !trigger.contains(event.target)) {
         popup.classList.add("d-none");
     }
 });
 
 document.addEventListener("DOMContentLoaded", function () {
+    if (!document.getElementById("bookingForm")) return;
+
     let checkOutDates = [];
     let NewAllDates = [];
     let calendar = null;
@@ -72,6 +87,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     numericFields.forEach(function (fieldId) {
         const inputField = document.getElementById(fieldId);
+        if (!inputField) return;
 
         inputField.addEventListener('input', function (e) {
             e.target.value = e.target.value.replace(/[^0-9]/g, '');
@@ -256,7 +272,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const totalGuests = adults + children;
 
         if (totalGuests < 4) {
-            calendar.clear();
+            if (calendar && typeof calendar.clear === 'function') calendar.clear();
             NewAllDates = [];
 
             const priceContainer = document.getElementById("priceContainer");
@@ -271,7 +287,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         if (totalGuests > 4) {
-            calendar.clear();
+            if (calendar && typeof calendar.clear === 'function') calendar.clear();
             NewAllDates = [];
 
             const priceContainer = document.getElementById("priceContainer");
@@ -382,6 +398,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function disablePastDates() {
+        if (!calendar || typeof calendar.set !== 'function') return;
         const today = new Date();
         const formattedToday = formatDate(today);
         calendar.set("minDate", formattedToday);
@@ -408,12 +425,12 @@ document.addEventListener("DOMContentLoaded", function () {
     function validateForm() {
         const adultsInput = document.getElementById("adults");
         const childrenInput = document.getElementById("children");
-        const infants = document.getElementById("infants").value;
-        const pets = document.getElementById("pets").value;
-        const selectedDates = calendar.selectedDates;
+        const infants = document.getElementById("infants") ? document.getElementById("infants").value : 0;
+        const pets = document.getElementById("pets") ? document.getElementById("pets").value : 0;
+        const selectedDates = (calendar && calendar.selectedDates) ? calendar.selectedDates : [];
 
-        let adults = parseInt(adultsInput.value) || 0;
-        let children = parseInt(childrenInput.value) || 0;
+        let adults = parseInt(adultsInput ? adultsInput.value : 0) || 0;
+        let children = parseInt(childrenInput ? childrenInput.value : 0) || 0;
 
         if (adults + children > 6) {
             const excess = adults + children - 6;
@@ -424,8 +441,8 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
 
-        adultsInput.value = adults;
-        childrenInput.value = children;
+        if (adultsInput) adultsInput.value = adults;
+        if (childrenInput) childrenInput.value = children;
 
         const isValidAdults = adults >= 0;
         const isValidChildren = children >= 0;
@@ -434,16 +451,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const isValidForm = isValidAdults && isValidChildren && isValidInfants && isValidPets && selectedDates.length === 2;
 
-        document.getElementById("submitButton").disabled = !isValidForm;
+        const submitBtn = document.getElementById("submitButton");
+        if (submitBtn) submitBtn.disabled = !isValidForm;
     }
 
     function calculateTotalPrice() {
-        const adults = parseInt(document.getElementById("adults").value) || 0;
-        const children = parseInt(document.getElementById("children").value) || 0;
+        const adults = parseInt(document.getElementById("adults")?.value || 0);
+        const children = parseInt(document.getElementById("children")?.value || 0);
         const totalGuests = adults + children;
         const additionalGuestFeePerNight = calculateAdditionalGuestFee(totalGuests);
 
-        const selectedDates = calendar.selectedDates;
+        const selectedDates = (calendar && calendar.selectedDates) ? calendar.selectedDates : [];
         let totalPrice = 0;
         let nights = 0;
 
@@ -1720,7 +1738,9 @@ document.addEventListener("DOMContentLoaded", function () {
     `;
     document.head.appendChild(style);
 
-    disablePastDates();
+    if (calendar) {
+        disablePastDates();
+    }
 
     const initialDateRange = getMonthDateRange(currentDate.getFullYear(), currentDate.getMonth());
     fetchApiData(initialDateRange.start_date, initialDateRange.end_date, uuids, (data) => {
@@ -1732,7 +1752,9 @@ document.addEventListener("DOMContentLoaded", function () {
         input.addEventListener("input", function () {
             validateForm();
 
-            const { start_date, end_date } = getMonthDateRange(calendar.currentYear, calendar.currentMonth);
+            const cYear = calendar ? calendar.currentYear : currentDate.getFullYear();
+            const cMonth = calendar ? calendar.currentMonth : currentDate.getMonth();
+            const { start_date, end_date } = getMonthDateRange(cYear, cMonth);
 
             fetchApiData(start_date, end_date, uuids, (data) => {
                 updateCalendarWithAPIResponse(data);
