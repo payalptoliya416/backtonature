@@ -435,6 +435,79 @@ const finalBodyClass = bodyClass ? `${defaultBodyClass} ${bodyClass}` : defaultB
         box-shadow: none !important;
         display: block !important;
       }
+
+      /* --- Sticky Booking Calendar Styles --- */
+      /* --- Sticky Booking Calendar Styles --- */
+      .sticky-div {
+        position: relative;
+      }
+      .sticky-column {
+        transition: none;
+        max-width: 100%;
+      }
+      .sticky-column.is-pinned {
+        position: fixed !important;
+        top: 30px !important;
+        z-index: 999 !important;
+        box-shadow: none !important;
+        border-radius: 12px;
+        background: transparent !important;
+      }
+      .sticky-column.is-stopped {
+        position: absolute !important;
+        z-index: 999 !important;
+        box-shadow: none !important;
+        border-radius: 12px;
+        background: transparent !important;
+      }
+      #booking-iframe {
+        width: 320px !important;
+        max-width: 100% !important;
+        min-height: 686px !important;
+        border-radius: 12px;
+        background: #ffffff;
+        display: block;
+        margin: 0 auto;
+        border: none !important;
+      }
+      .sticky-placeholder {
+        max-width: 100%;
+      }
+      @media (max-width: 1024px) {
+        .sticky-column,
+        .sticky-column.is-pinned,
+        .sticky-column.is-stopped,
+        .FixedWidget__fixed_widget__pinned,
+        .sticky-div div:first-child {
+          position: static !important;
+          width: 100% !important;
+          max-width: 340px !important;
+          margin: 0 auto !important;
+          height: auto !important;
+          box-shadow: none !important;
+        }
+        .sticky-div {
+          width: 100% !important;
+          display: flex !important;
+          justify-content: center !important;
+          margin: 20px auto !important;
+        }
+        #booking-iframe {
+          width: 320px !important;
+          max-width: 100% !important;
+          min-height: 686px !important;
+          margin: 0 auto !important;
+          display: block !important;
+        }
+      }
+      @media (max-width: 480px) {
+        #booking-iframe {
+          width: 100% !important;
+          max-width: 320px !important;
+          min-height: 686px !important;
+          margin: 0 auto !important;
+        }
+      }
     </style>
   </head>
   <body class={finalBodyClass}>
@@ -756,6 +829,91 @@ const finalBodyClass = bodyClass ? `${defaultBodyClass} ${bodyClass}` : defaultB
               }
             });
           }, { passive: true });
+        }
+
+        // 6. Sticky Booking Calendar Engine (Desktop Sticky Sidebar)
+        const stickyWidgets = document.querySelectorAll('.sticky-column, .sticky-div #booking, .sticky-div .elementor-widget-html');
+        if (stickyWidgets.length > 0) {
+          stickyWidgets.forEach(widget => {
+            const parent = widget.closest('.sticky-div') || widget.parentElement;
+            if (!parent) return;
+
+            let placeholder = parent.querySelector('.sticky-placeholder');
+            if (!placeholder) {
+              placeholder = document.createElement('div');
+              placeholder.className = 'sticky-placeholder';
+              placeholder.style.display = 'none';
+              widget.parentNode.insertBefore(placeholder, widget);
+            }
+
+            function updateSticky() {
+              if (window.innerWidth <= 1024) {
+                widget.classList.remove('is-pinned', 'is-stopped');
+                widget.style.position = '';
+                widget.style.top = '';
+                widget.style.left = '';
+                widget.style.width = '';
+                placeholder.style.display = 'none';
+                return;
+              }
+
+              const footer = document.querySelector('#colophon, footer, .footer-section, .elementor-location-footer');
+              const scrollTop = window.scrollY || window.pageYOffset;
+              
+              const iframe = widget.querySelector('#booking-iframe');
+              const widgetWidth = iframe ? 320 : (Math.min(320, widget.offsetWidth || parent.offsetWidth || 320));
+              const widgetHeight = widget.offsetHeight || 686;
+              const parentTop = parent.getBoundingClientRect().top + scrollTop;
+              const marginTop = 30;
+              const marginBottom = 60;
+
+              let stopY = document.documentElement.scrollHeight - 600;
+              if (footer) {
+                stopY = footer.getBoundingClientRect().top + scrollTop;
+              }
+
+              const triggerY = parentTop - marginTop;
+              const stopTriggerY = stopY - widgetHeight - marginTop - marginBottom;
+
+              // Calculate left coordinate from placeholder if pinned, or widget if not pinned
+              let leftPos = (placeholder.style.display !== 'none')
+                ? placeholder.getBoundingClientRect().left
+                : widget.getBoundingClientRect().left;
+
+              if (scrollTop >= stopTriggerY) {
+                widget.classList.remove('is-pinned');
+                widget.classList.add('is-stopped');
+                widget.style.position = 'absolute';
+                widget.style.top = (stopTriggerY - parentTop + marginTop) + 'px';
+                widget.style.left = '0px';
+                widget.style.width = widgetWidth + 'px';
+                placeholder.style.display = 'block';
+                placeholder.style.width = widgetWidth + 'px';
+                placeholder.style.height = widgetHeight + 'px';
+              } else if (scrollTop >= triggerY) {
+                widget.classList.remove('is-stopped');
+                widget.classList.add('is-pinned');
+                widget.style.position = 'fixed';
+                widget.style.top = marginTop + 'px';
+                widget.style.left = leftPos + 'px';
+                widget.style.width = widgetWidth + 'px';
+                placeholder.style.display = 'block';
+                placeholder.style.width = widgetWidth + 'px';
+                placeholder.style.height = widgetHeight + 'px';
+              } else {
+                widget.classList.remove('is-pinned', 'is-stopped');
+                widget.style.position = '';
+                widget.style.top = '';
+                widget.style.left = '';
+                widget.style.width = '';
+                placeholder.style.display = 'none';
+              }
+            }
+
+            window.addEventListener('scroll', updateSticky, { passive: true });
+            window.addEventListener('resize', updateSticky);
+            setTimeout(updateSticky, 300);
+          });
         }
       });
     </script>
