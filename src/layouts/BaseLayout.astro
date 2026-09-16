@@ -374,6 +374,24 @@ const finalBodyClass = bodyClass ? `${defaultBodyClass} ${bodyClass}` : defaultB
         transition: width 1.2s cubic-bezier(0.25, 1, 0.5, 1) !important;
         box-shadow: none !important;
       }
+
+      /* --- Google Maps Embed Styling --- */
+      .elementor-widget-google_maps,
+      .elementor-widget-google_maps .elementor-widget-container,
+      .elementor-widget-google_maps .elementor-custom-embed {
+        width: 100% !important;
+        height: 100% !important;
+        line-height: 0 !important;
+      }
+      .elementor-widget-google_maps iframe {
+        width: 100% !important;
+        height: 420px !important;
+        min-height: 350px !important;
+        border: 0 !important;
+        border-radius: 12px !important;
+        display: block !important;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.06) !important;
+      }
     </style>
   </head>
   <body class={finalBodyClass}>
