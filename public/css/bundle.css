@@ -11769,7 +11769,7 @@ h1.entry-title {
   position: relative;
 }
 .elementor-widget:not(:last-child) {
-  margin-bottom: var(--kit-widget-spacing, 20px);
+  margin-bottom: var(--kit-widget-spacing, 10px);
 }
 .elementor-widget:not(:last-child).elementor-absolute,
 .elementor-widget:not(:last-child).elementor-widget__width-auto,
@@ -51830,9 +51830,9 @@ body.elementor-page-10154 {
   color: #d47800;
 }
 .elementor-8644 .elementor-element.elementor-element-3ac0ac47 {
-  width: var(--container-widget-width, 66.95%);
-  max-width: 66.95%;
-  --container-widget-width: 66.95%;
+  width: var(--container-widget-width, 70.95%);
+  max-width: 70.95%;
+  --container-widget-width: 70.95%;
   --container-widget-flex-grow: 0;
   color: #fff;
   font-family: Inter, Sans-serif;
@@ -52138,7 +52138,7 @@ body.elementor-page-10154 {
 .elementor-8644
   .elementor-element.elementor-element-1b5d6723
   .elementor-heading-title {
-  font-family: Rubik, Sans-serif;
+  font-family: Rubik, Sans-serif !important;
   font-size: 36px;
   font-weight: 600;
   color: #070707;
@@ -52146,9 +52146,9 @@ body.elementor-page-10154 {
 .elementor-8644
   .elementor-element.elementor-element-4fb3c33c
   .elementor-heading-title {
-  font-family: Rubik, Sans-serif;
+  font-family: Rubik, Sans-serif !important;
   font-size: 16px;
-  font-weight: 500;
+  font-weight: 600;
   text-transform: capitalize;
   color: #3d3d3d;
 }
@@ -52476,9 +52476,9 @@ body.elementor-page-10154 {
 .elementor-8644
   .elementor-element.elementor-element-3580812d
   .elementor-heading-title {
-  font-family: Rubik, Sans-serif;
+  font-family: Rubik, Sans-serif !important;
   font-size: 16px;
-  font-weight: 500;
+  font-weight: 600;
   text-transform: capitalize;
   color: #3d3d3d;
 }
@@ -52492,7 +52492,7 @@ body.elementor-page-10154 {
 }
 .elementor-8644 .elementor-element.elementor-element-1588992 {
   color: #999;
-  font-family: Inter, Sans-serif;
+  font-family: Inter, Sans-serif !important;
   font-size: 16px;
   font-weight: 400;
   line-height: 22px;
