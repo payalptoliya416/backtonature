@@ -51810,8 +51810,8 @@ body.elementor-page-10154 {
   color: #fff;
 }
 .elementor-8644 .elementor-element.elementor-element-24570f07 {
-  width: var(--container-widget-width, 89.009%);
-  max-width: 89.009%;
+  width:100%;
+  max-width: 100%;
   --container-widget-width: 89.009%;
   --container-widget-flex-grow: 0;
 }
@@ -64678,3 +64678,5 @@ select:not([size]):not([multiple]) {
     }
   }
 }
+
+
