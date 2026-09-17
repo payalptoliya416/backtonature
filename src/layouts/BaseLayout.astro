@@ -534,7 +534,7 @@ const finalBodyClass = bodyClass ? `${defaultBodyClass} ${bodyClass}` : defaultB
 
     <!-- Complete Interactive Elements & Auto-Slider Engine Script -->
     <script is:inline>
-      document.addEventListener('DOMContentLoaded', () => {
+      const initAccordions = () => {
         // 1. Elementor Accordion (Single-Open / Exclusive Accordion Engine like live site)
         const accordions = document.querySelectorAll('.elementor-accordion, .elementor-widget-accordion');
         
@@ -574,27 +574,56 @@ const finalBodyClass = bodyClass ? `${defaultBodyClass} ${bodyClass}` : defaultB
               closeAccordionItem(title, content);
             }
 
-            title.addEventListener('click', (e) => {
-              e.preventDefault();
+            title.addEventListener('click', (event) => {
+              event.preventDefault();
+              event.stopPropagation();
               const isCurrentlyActive = title.classList.contains('elementor-active');
 
-              // Close all other items in this accordion
               items.forEach((otherItem) => {
                 if (otherItem !== item) {
-                  const otherTitle = otherItem.querySelector('.elementor-tab-title');
-                  const otherContent = otherItem.querySelector('.elementor-tab-content');
-                  closeAccordionItem(otherTitle, otherContent);
+                  closeAccordionItem(
+                    otherItem.querySelector('.elementor-tab-title'),
+                    otherItem.querySelector('.elementor-tab-content')
+                  );
                 }
               });
 
-              // Toggle clicked item
               if (isCurrentlyActive) {
                 closeAccordionItem(title, content);
               } else {
                 openAccordionItem(title, content);
+                setTimeout(() => openAccordionItem(title, content), 0);
+              }
+            }, true);
+
+          });
+
+          accordion.addEventListener('click', (event) => {
+            const clickedTitle = event.composedPath().find(
+              (target) => target && target.classList && target.classList.contains('elementor-tab-title')
+            );
+            if (!clickedTitle || !accordion.contains(clickedTitle)) return;
+
+            event.preventDefault();
+            const clickedItem = clickedTitle.closest('.elementor-accordion-item');
+            const clickedContent = clickedItem?.querySelector('.elementor-tab-content');
+            const isCurrentlyActive = clickedTitle.classList.contains('elementor-active');
+
+            items.forEach((otherItem) => {
+              if (otherItem !== clickedItem) {
+                closeAccordionItem(
+                  otherItem.querySelector('.elementor-tab-title'),
+                  otherItem.querySelector('.elementor-tab-content')
+                );
               }
             });
-          });
+
+            if (isCurrentlyActive) {
+              closeAccordionItem(clickedTitle, clickedContent);
+            } else {
+              openAccordionItem(clickedTitle, clickedContent);
+            }
+          }, true);
         });
 
         // 2. Hamburger Mobile Menu (handled in Header.astro)
@@ -1026,7 +1055,13 @@ const finalBodyClass = bodyClass ? `${defaultBodyClass} ${bodyClass}` : defaultB
             setTimeout(updateSticky, 300);
           });
         }
-      });
+      };
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initAccordions, { once: true });
+      } else {
+        initAccordions();
+      }
     </script>
   </body>
 </html>
