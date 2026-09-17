@@ -423,16 +423,17 @@ const finalBodyClass = bodyClass ? `${defaultBodyClass} ${bodyClass}` : defaultB
         display: block !important;
       }
 
-      /* --- Sticky Booking Calendar Styles --- */
-      /* --- Sticky Booking Calendar Styles --- */
-      .sticky-div {
+      /* --- Sticky Booking Calendar Styles (Scoped to Accommodation Calendar only) --- */
+      .single-accommodation .sticky-div {
         position: relative;
       }
-      .sticky-column {
+      #booking,
+      .single-accommodation .sticky-column {
         transition: none;
         max-width: 100%;
       }
-      .sticky-column.is-pinned {
+      #booking.is-pinned,
+      .single-accommodation .sticky-column.is-pinned {
         position: fixed !important;
         top: 30px !important;
         z-index: 999 !important;
@@ -440,7 +441,8 @@ const finalBodyClass = bodyClass ? `${defaultBodyClass} ${bodyClass}` : defaultB
         border-radius: 12px;
         background: transparent !important;
       }
-      .sticky-column.is-stopped {
+      #booking.is-stopped,
+      .single-accommodation .sticky-column.is-stopped {
         position: absolute !important;
         z-index: 999 !important;
         box-shadow: none !important;
@@ -533,21 +535,65 @@ const finalBodyClass = bodyClass ? `${defaultBodyClass} ${bodyClass}` : defaultB
     <!-- Complete Interactive Elements & Auto-Slider Engine Script -->
     <script is:inline>
       document.addEventListener('DOMContentLoaded', () => {
-        // 1. Elementor Accordion Toggle
-        const accordionTitles = document.querySelectorAll('.elementor-tab-title');
-        accordionTitles.forEach((title) => {
-          title.addEventListener('click', () => {
-            const isActive = title.classList.contains('elementor-active');
-            const tabId = title.getAttribute('data-tab');
-            const content = document.querySelector(`.elementor-tab-content[data-tab="${tabId}"]`);
-            
-            if (isActive) {
-              title.classList.remove('elementor-active');
-              if (content) content.style.display = 'none';
+        // 1. Elementor Accordion (Single-Open / Exclusive Accordion Engine like live site)
+        const accordions = document.querySelectorAll('.elementor-accordion, .elementor-widget-accordion');
+        
+        function closeAccordionItem(title, content) {
+          if (!title) return;
+          title.classList.remove('elementor-active');
+          title.setAttribute('aria-expanded', 'false');
+          if (content) {
+            content.classList.remove('elementor-active');
+            content.style.display = 'none';
+          }
+        }
+
+        function openAccordionItem(title, content) {
+          if (!title) return;
+          title.classList.add('elementor-active');
+          title.setAttribute('aria-expanded', 'true');
+          if (content) {
+            content.classList.add('elementor-active');
+            content.style.display = 'block';
+          }
+        }
+
+        accordions.forEach((accordion) => {
+          const items = accordion.querySelectorAll('.elementor-accordion-item');
+          if (items.length === 0) return;
+
+          items.forEach((item, index) => {
+            const title = item.querySelector('.elementor-tab-title');
+            const content = item.querySelector('.elementor-tab-content');
+            if (!title) return;
+
+            // Initial state: Open first item by default (like live site), close others
+            if (index === 0) {
+              openAccordionItem(title, content);
             } else {
-              title.classList.add('elementor-active');
-              if (content) content.style.display = 'block';
+              closeAccordionItem(title, content);
             }
+
+            title.addEventListener('click', (e) => {
+              e.preventDefault();
+              const isCurrentlyActive = title.classList.contains('elementor-active');
+
+              // Close all other items in this accordion
+              items.forEach((otherItem) => {
+                if (otherItem !== item) {
+                  const otherTitle = otherItem.querySelector('.elementor-tab-title');
+                  const otherContent = otherItem.querySelector('.elementor-tab-content');
+                  closeAccordionItem(otherTitle, otherContent);
+                }
+              });
+
+              // Toggle clicked item
+              if (isCurrentlyActive) {
+                closeAccordionItem(title, content);
+              } else {
+                openAccordionItem(title, content);
+              }
+            });
           });
         });
 
@@ -857,13 +903,12 @@ const finalBodyClass = bodyClass ? `${defaultBodyClass} ${bodyClass}` : defaultB
           }, 150);
         }
 
-        // 7. Sticky Booking Calendar Engine (Stops at FAQ / #stop-section)
-        let stickyWidgets = Array.from(document.querySelectorAll('#booking, .sticky-column, .sticky-div'));
-        if (document.querySelector('#booking')) {
-          stickyWidgets = Array.from(document.querySelectorAll('#booking'));
-        } else {
-          stickyWidgets = stickyWidgets.filter(el => !el.querySelector('.sticky-column, .sticky-div, #booking'));
-        }
+        // 7. Sticky Booking Calendar Engine (ONLY for Booking Calendar #booking on accommodation & glamping-resort-cyprus pages)
+        const isEligiblePage = document.body.classList.contains('single-accommodation') || 
+                               window.location.pathname.includes('/accommodation') || 
+                               window.location.pathname.includes('/glamping-resort-cyprus');
+        const bookingEl = isEligiblePage ? document.querySelector('#booking') : null;
+        const stickyWidgets = bookingEl ? [bookingEl] : [];
 
         if (stickyWidgets.length > 0) {
           stickyWidgets.forEach(widget => {
