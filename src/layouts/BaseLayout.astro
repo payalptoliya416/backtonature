@@ -551,21 +551,7 @@ const finalBodyClass = bodyClass ? `${defaultBodyClass} ${bodyClass}` : defaultB
           });
         });
 
-        // 2. Hamburger Mobile Menu Toggle
-        const toggleBtn = document.querySelector('.elementor-menu-toggle');
-        const mobileNav = document.querySelector('.elementor-nav-menu--dropdown');
-        if (toggleBtn && mobileNav) {
-          toggleBtn.addEventListener('click', () => {
-            const isOpened = toggleBtn.classList.contains('elementor-active');
-            if (isOpened) {
-              toggleBtn.classList.remove('elementor-active');
-              mobileNav.style.display = 'none';
-            } else {
-              toggleBtn.classList.add('elementor-active');
-              mobileNav.style.display = 'block';
-            }
-          });
-        }
+        // 2. Hamburger Mobile Menu (handled in Header.astro)
 
         // 3. Horizontal Infinite Auto-Scroll Carousel Engine (Optimized with IntersectionObserver)
         const hContainers = document.querySelectorAll('.premium-adv-carousel__horizontal');
@@ -871,14 +857,20 @@ const finalBodyClass = bodyClass ? `${defaultBodyClass} ${bodyClass}` : defaultB
           }, 150);
         }
 
-        // 7. Sticky Booking Calendar Engine (Throttled & Inspect-Safe)
-        const stickyWidgets = document.querySelectorAll('.sticky-column, .sticky-div #booking, .sticky-div .elementor-widget-html');
+        // 7. Sticky Booking Calendar Engine (Stops at FAQ / #stop-section)
+        let stickyWidgets = Array.from(document.querySelectorAll('#booking, .sticky-column, .sticky-div'));
+        if (document.querySelector('#booking')) {
+          stickyWidgets = Array.from(document.querySelectorAll('#booking'));
+        } else {
+          stickyWidgets = stickyWidgets.filter(el => !el.querySelector('.sticky-column, .sticky-div, #booking'));
+        }
+
         if (stickyWidgets.length > 0) {
           stickyWidgets.forEach(widget => {
-            const parent = widget.closest('.sticky-div') || widget.parentElement;
+            const parent = widget.parentElement;
             if (!parent) return;
 
-            let placeholder = parent.querySelector('.sticky-placeholder');
+            let placeholder = parent.querySelector(':scope > .sticky-placeholder');
             if (!placeholder) {
               placeholder = document.createElement('div');
               placeholder.className = 'sticky-placeholder';
@@ -900,49 +892,72 @@ const finalBodyClass = bodyClass ? `${defaultBodyClass} ${bodyClass}` : defaultB
                 return;
               }
 
-              const footer = document.querySelector('#colophon, footer, .footer-section, .elementor-location-footer');
+              const stopElement = document.querySelector('#stop-section, .accordion-section, [data-id="8032d87"], .faq-section, #faq, #colophon, footer');
               const scrollTop = window.scrollY || window.pageYOffset;
               
-              const widgetWidth = (placeholder && placeholder.style.display !== 'none')
-                ? placeholder.getBoundingClientRect().width
-                : widget.getBoundingClientRect().width;
-              const widgetHeight = widget.offsetHeight || 686;
-              const parentTop = parent.getBoundingClientRect().top + scrollTop;
-              const marginTop = 30;
-              const marginBottom = 60;
+              const isCurrentlyPinned = widget.classList.contains('is-pinned');
+              const isCurrentlyStopped = widget.classList.contains('is-stopped');
 
-              let stopY = document.documentElement.scrollHeight - 600;
-              if (footer) {
-                stopY = footer.getBoundingClientRect().top + scrollTop;
+              if (!isCurrentlyPinned && !isCurrentlyStopped) {
+                const rect = widget.getBoundingClientRect();
+                if (rect.width > 0) {
+                  placeholder.style.width = rect.width + 'px';
+                }
+                if (rect.height > 0) {
+                  placeholder.style.height = rect.height + 'px';
+                }
               }
 
-              const triggerY = parentTop - marginTop;
+              const placeholderRect = placeholder.getBoundingClientRect();
+              const widgetWidth = placeholderRect.width || widget.getBoundingClientRect().width || 384;
+              const widgetHeight = widget.offsetHeight || placeholderRect.height || 686;
+              const placeholderTop = (placeholder.style.display !== 'none')
+                ? (placeholderRect.top + scrollTop)
+                : (widget.getBoundingClientRect().top + scrollTop);
+              
+              const marginTop = 30;
+              const marginBottom = 30;
+
+              let stopY = document.documentElement.scrollHeight - 600;
+              if (stopElement) {
+                stopY = stopElement.getBoundingClientRect().top + scrollTop;
+              }
+
+              const triggerY = placeholderTop - marginTop;
               const stopTriggerY = stopY - widgetHeight - marginTop - marginBottom;
 
-              let leftPos = (placeholder.style.display !== 'none')
-                ? placeholder.getBoundingClientRect().left
-                : widget.getBoundingClientRect().left;
-
               if (scrollTop >= stopTriggerY) {
-                widget.classList.remove('is-pinned');
-                widget.classList.add('is-stopped');
-                widget.style.position = 'absolute';
-                widget.style.top = (stopTriggerY - parentTop + marginTop) + 'px';
-                widget.style.left = '0px';
-                widget.style.width = widgetWidth + 'px';
                 placeholder.style.display = 'block';
                 placeholder.style.width = widgetWidth + 'px';
                 placeholder.style.height = widgetHeight + 'px';
+
+                widget.classList.remove('is-pinned');
+                widget.classList.add('is-stopped');
+                widget.style.position = 'absolute';
+
+                const offsetParent = widget.offsetParent || parent || document.body;
+                const offsetParentRect = offsetParent.getBoundingClientRect();
+                const curPlaceholderRect = placeholder.getBoundingClientRect();
+
+                const relativeLeft = curPlaceholderRect.left - offsetParentRect.left;
+                const relativeTop = stopY - (offsetParentRect.top + scrollTop) - widgetHeight - marginBottom;
+
+                widget.style.top = relativeTop + 'px';
+                widget.style.left = relativeLeft + 'px';
+                widget.style.width = widgetWidth + 'px';
               } else if (scrollTop >= triggerY) {
+                placeholder.style.display = 'block';
+                placeholder.style.width = widgetWidth + 'px';
+                placeholder.style.height = widgetHeight + 'px';
+
+                const curPlaceholderRect = placeholder.getBoundingClientRect();
+
                 widget.classList.remove('is-stopped');
                 widget.classList.add('is-pinned');
                 widget.style.position = 'fixed';
                 widget.style.top = marginTop + 'px';
-                widget.style.left = leftPos + 'px';
+                widget.style.left = curPlaceholderRect.left + 'px';
                 widget.style.width = widgetWidth + 'px';
-                placeholder.style.display = 'block';
-                placeholder.style.width = widgetWidth + 'px';
-                placeholder.style.height = widgetHeight + 'px';
               } else {
                 widget.classList.remove('is-pinned', 'is-stopped');
                 widget.style.position = '';
