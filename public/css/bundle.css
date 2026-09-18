@@ -11439,6 +11439,7 @@ div[class*="elementor-widget-premium"]
 .elementor-widget-wrap > .elementor-element.elementor-absolute {
   position: absolute;
 }
+
 .e-con-inner > .elementor-element.elementor-fixed,
 .e-con > .elementor-element.elementor-fixed,
 .elementor-widget-wrap > .elementor-element.elementor-fixed {
@@ -11796,6 +11797,7 @@ h1.entry-title {
   > .elementor-element-populated {
   padding: 15px;
 }
+
 .elementor-column-gap-wide > .elementor-column > .elementor-element-populated {
   padding: 20px;
 }

@@ -270,7 +270,7 @@ const finalBodyClass = bodyClass ? `${defaultBodyClass} ${bodyClass}` : defaultB
         width: 100% !important;
         overflow: hidden !important;
         position: relative !important;
-        padding: 20px 0 !important;
+        padding: 0 0 20px 0 !important;
         mask-image: linear-gradient(to right, transparent, black 4%, black 96%, transparent);
         -webkit-mask-image: linear-gradient(to right, transparent, black 4%, black 96%, transparent);
       }
@@ -282,21 +282,21 @@ const finalBodyClass = bodyClass ? `${defaultBodyClass} ${bodyClass}` : defaultB
       .premium-adv-carousel__horizontal .premium-adv-carousel__items {
         display: flex !important;
         flex-direction: row !important;
-        gap: 25px !important;
+        gap: 10px !important;
         width: max-content !important;
         align-items: center !important;
         will-change: transform;
       }
       .premium-adv-carousel__horizontal .premium-adv-carousel__item-outer-wrapper {
-        flex: 0 0 340px !important;
-        width: 300px !important;
-        max-width: 300px !important;
+        flex: 0 0 520px !important;
+        width: 520px !important;
+        max-width: 520px !important;
         margin: 0 !important;
         padding: 0 !important;
       }
       .premium-adv-carousel__horizontal .premium-adv-carousel__item {
-        width: 100% !important;
-        max-width: 100% !important;
+        width: 520px !important;
+        max-width: 520px !important;
         margin: 0 !important;
         display: block !important;
       }
@@ -316,11 +316,12 @@ const finalBodyClass = bodyClass ? `${defaultBodyClass} ${bodyClass}` : defaultB
         transition: transform 0.3s ease, box-shadow 0.3s ease !important;
         display: block !important;
       }
-     .premium-adv-carousel__horizontal .premium-adv-carousel__item-outer-wrapper img , .premium-adv-carousel__item-outer-wrapper{
-        transition: 0.5s all  !important;
-      }, 
+      .premium-adv-carousel__horizontal .premium-adv-carousel__item-outer-wrapper img,
+      .premium-adv-carousel__horizontal .premium-adv-carousel__item-outer-wrapper {
+        transition: 0.5s all !important;
+      }
       .premium-adv-carousel__horizontal .premium-adv-carousel__item-outer-wrapper:hover img {
-        transform: translateY(-4px) scale(1.2) !important;
+        transform: translateY(-4px) scale(1.05) !important;
         box-shadow: 0 12px 30px rgba(0,0,0,0.2) !important;
       }
 
@@ -673,14 +674,14 @@ const finalBodyClass = bodyClass ? `${defaultBodyClass} ${bodyClass}` : defaultB
 
           function getSingleSetWidth() {
             let w = 0;
-            const gap = 25;
+            const gap = parseFloat(window.getComputedStyle(list).gap) || 10;
             for (let i = 0; i < originalItems.length; i++) {
               const el = list.children[i];
               if (el) {
-                w += (el.offsetWidth || 340) + gap;
+                w += (el.offsetWidth || 520) + gap;
               }
             }
-            return w > 0 ? w : (originalItems.length * (340 + gap));
+            return w > 0 ? w : (originalItems.length * (520 + gap));
           }
 
           let singleSetWidth = getSingleSetWidth();
