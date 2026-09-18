@@ -39807,7 +39807,7 @@ ul[data-list-animation*="animated-"] .premium-bullet-list-divider-inline {
   .elementor-element.elementor-element-b30c142
   .elementor-image-box-description {
   color: #e5e5e5;
-  font-family: Inter, Sans-serif;
+  font-family: Inter, Sans-serif !important;
   font-size: 16px;
   font-weight: 300;
   line-height: 25px;
@@ -39868,7 +39868,7 @@ ul[data-list-animation*="animated-"] .premium-bullet-list-divider-inline {
   .elementor-element.elementor-element-552eef0
   .elementor-image-box-description {
   color: #e5e5e5;
-  font-family: Inter, Sans-serif;
+  font-family: Inter, Sans-serif !important;
   font-size: 16px;
   font-weight: 300;
   line-height: 25px;
@@ -39994,7 +39994,7 @@ ul[data-list-animation*="animated-"] .premium-bullet-list-divider-inline {
   .elementor-element.elementor-element-29ba543
   .elementor-image-box-description {
   color: #e5e5e5;
-  font-family: Inter, Sans-serif;
+  font-family: Inter, Sans-serif !important;
   font-size: 16px;
   font-weight: 300;
   line-height: 25px;
@@ -40038,7 +40038,7 @@ ul[data-list-animation*="animated-"] .premium-bullet-list-divider-inline {
 .elementor-8597
   .elementor-element.elementor-element-db8b382
   .elementor-heading-title {
-  font-family: Rubik, Sans-serif;
+  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
   font-size: 48px;
   text-transform: none;
   font-style: italic;
@@ -40098,7 +40098,7 @@ ul[data-list-animation*="animated-"] .premium-bullet-list-divider-inline {
   .elementor-image-box-title {
   margin-bottom: 0;
   color: #fff;
-  font-family: Rubik, Sans-serif;
+  font-family: Rubik, Sans-serif !important;
   font-size: 24px;
   font-weight: 500;
   text-transform: capitalize;
@@ -40107,7 +40107,7 @@ ul[data-list-animation*="animated-"] .premium-bullet-list-divider-inline {
   .elementor-element.elementor-element-89a6be4
   .elementor-image-box-description {
   color: #e5e5e5;
-  font-family: Inter, Sans-serif;
+  font-family: Inter, Sans-serif !important;
   font-size: 16px;
   font-weight: 300;
   line-height: 25px;
@@ -40168,7 +40168,7 @@ ul[data-list-animation*="animated-"] .premium-bullet-list-divider-inline {
   .elementor-element.elementor-element-225d1e8
   .elementor-image-box-description {
   color: #e5e5e5;
-  font-family: Inter, Sans-serif;
+  font-family: Inter, Sans-serif !important;
   font-size: 16px;
   font-weight: 300;
   line-height: 25px;
@@ -40233,7 +40233,7 @@ ul[data-list-animation*="animated-"] .premium-bullet-list-divider-inline {
   .elementor-element.elementor-element-a2bd792
   .elementor-image-box-description {
   color: #e5e5e5;
-  font-family: Inter, Sans-serif;
+  font-family: Inter, Sans-serif !important;
   font-size: 16px;
   font-weight: 300;
   line-height: 25px;
@@ -40294,7 +40294,7 @@ ul[data-list-animation*="animated-"] .premium-bullet-list-divider-inline {
   .elementor-element.elementor-element-fc0d750
   .elementor-image-box-description {
   color: #e5e5e5;
-  font-family: Inter, Sans-serif;
+  font-family: Inter, Sans-serif !important;
   font-size: 16px;
   font-weight: 300;
   line-height: 25px;
@@ -40341,7 +40341,7 @@ ul[data-list-animation*="animated-"] .premium-bullet-list-divider-inline {
 .elementor-8597
   .elementor-element.elementor-element-a142607
   .elementor-heading-title {
-  font-family: Rubik, Sans-serif;
+  font-family: Rubik, Sans-serif !important;
   font-size: 48px;
   color: #fff;
 }
@@ -41581,7 +41581,7 @@ body.elementor-page-8597 {
 }
 @media (min-width: 768px) {
   .elementor-8597 .elementor-element.elementor-element-61fb86f1 {
-    width: 71.961%;
+    width: 90%;
   }
   .elementor-8597 .elementor-element.elementor-element-642b71f9 {
     width: 28%;
