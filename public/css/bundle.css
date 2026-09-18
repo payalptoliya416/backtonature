@@ -54916,7 +54916,7 @@ body.elementor-page-8644 {
   .elementor-8644
     .elementor-element.elementor-element-2acb7635
     > .elementor-element-populated {
-    margin: 40px -6px 0 -35px;
+    margin: 40px -6px 0 0px;
     --e-column-margin-right: -6px;
     --e-column-margin-left: -35px;
   }
@@ -64695,5 +64695,8 @@ select:not([size]):not([multiple]) {
 
 div.elementor-8679 .elementor-nav-menu--dropdown li.logocentral, .elementor-nav-menu--dropdown li.logocentral{
   text-align: left !important;
-  padding: 14px 10px !important;
+  padding: 2px 10px !important;
+}
+.flatpickr-wrapper{
+  width:100%;
 }
