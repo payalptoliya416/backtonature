@@ -554,95 +554,62 @@ const finalBodyClass = bodyClass ? `${defaultBodyClass} ${bodyClass}` : defaultB
     <script is:inline>
       const initAccordions = () => {
         // 1. Elementor Accordion (Single-Open / Exclusive Accordion Engine like live site)
-        const accordions = document.querySelectorAll('.elementor-accordion, .elementor-widget-accordion');
-        
-        function closeAccordionItem(title, content) {
-          if (!title) return;
-          title.classList.remove('elementor-active');
-          title.setAttribute('aria-expanded', 'false');
-          if (content) {
-            content.classList.remove('elementor-active');
-            content.style.display = 'none';
-          }
-        }
+       // 1. Elementor Accordion - FAQ ONLY
+const accordions = document.querySelectorAll('.elementor-accordion');
 
-        function openAccordionItem(title, content) {
-          if (!title) return;
-          title.classList.add('elementor-active');
-          title.setAttribute('aria-expanded', 'true');
-          if (content) {
-            content.classList.add('elementor-active');
-            content.style.display = 'block';
-          }
-        }
+accordions.forEach((accordion) => {
+  const items = accordion.querySelectorAll('.elementor-accordion-item');
 
-        accordions.forEach((accordion) => {
-          const items = accordion.querySelectorAll('.elementor-accordion-item');
-          if (items.length === 0) return;
+  items.forEach((item, index) => {
+    const title = item.querySelector('.elementor-tab-title');
+    const content = item.querySelector('.elementor-tab-content');
 
-          items.forEach((item, index) => {
-            const title = item.querySelector('.elementor-tab-title');
-            const content = item.querySelector('.elementor-tab-content');
-            if (!title) return;
+    if (!title || !content) return;
 
-            // Initial state: Open first item by default (like live site), close others
-            if (index === 0) {
-              openAccordionItem(title, content);
-            } else {
-              closeAccordionItem(title, content);
-            }
+    // Initial state
+    if (index === 0) {
+      title.classList.add('elementor-active');
+      title.setAttribute('aria-expanded', 'true');
+      content.classList.add('elementor-active');
+      content.style.display = 'block';
+    } else {
+      title.classList.remove('elementor-active');
+      title.setAttribute('aria-expanded', 'false');
+      content.classList.remove('elementor-active');
+      content.style.display = 'none';
+    }
 
-            title.addEventListener('click', (event) => {
-              event.preventDefault();
-              event.stopPropagation();
-              const isCurrentlyActive = title.classList.contains('elementor-active');
+    title.addEventListener('click', (event) => {
+      event.preventDefault();
+      event.stopPropagation();
 
-              items.forEach((otherItem) => {
-                if (otherItem !== item) {
-                  closeAccordionItem(
-                    otherItem.querySelector('.elementor-tab-title'),
-                    otherItem.querySelector('.elementor-tab-content')
-                  );
-                }
-              });
+      const isOpen = title.classList.contains('elementor-active');
 
-              if (isCurrentlyActive) {
-                closeAccordionItem(title, content);
-              } else {
-                openAccordionItem(title, content);
-                setTimeout(() => openAccordionItem(title, content), 0);
-              }
-            }, true);
+      // Close all FAQs
+      items.forEach((otherItem) => {
+        const otherTitle = otherItem.querySelector('.elementor-tab-title');
+        const otherContent = otherItem.querySelector('.elementor-tab-content');
 
-          });
+        if (!otherTitle || !otherContent) return;
 
-          accordion.addEventListener('click', (event) => {
-            const clickedTitle = event.composedPath().find(
-              (target) => target && target.classList && target.classList.contains('elementor-tab-title')
-            );
-            if (!clickedTitle || !accordion.contains(clickedTitle)) return;
+        otherTitle.classList.remove('elementor-active');
+        otherTitle.setAttribute('aria-expanded', 'false');
 
-            event.preventDefault();
-            const clickedItem = clickedTitle.closest('.elementor-accordion-item');
-            const clickedContent = clickedItem?.querySelector('.elementor-tab-content');
-            const isCurrentlyActive = clickedTitle.classList.contains('elementor-active');
+        otherContent.classList.remove('elementor-active');
+        otherContent.style.display = 'none';
+      });
 
-            items.forEach((otherItem) => {
-              if (otherItem !== clickedItem) {
-                closeAccordionItem(
-                  otherItem.querySelector('.elementor-tab-title'),
-                  otherItem.querySelector('.elementor-tab-content')
-                );
-              }
-            });
+      // Open only if it was closed
+      if (!isOpen) {
+        title.classList.add('elementor-active');
+        title.setAttribute('aria-expanded', 'true');
 
-            if (isCurrentlyActive) {
-              closeAccordionItem(clickedTitle, clickedContent);
-            } else {
-              openAccordionItem(clickedTitle, clickedContent);
-            }
-          }, true);
-        });
+        content.classList.add('elementor-active');
+        content.style.display = 'block';
+      }
+    });
+  });
+});
 
         // 2. Hamburger Mobile Menu (handled in Header.astro)
 
