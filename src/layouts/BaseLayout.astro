@@ -550,8 +550,42 @@ const finalBodyClass = bodyClass ? `${defaultBodyClass} ${bodyClass}` : defaultB
           max-width: 100% !important;
           padding: 0.8rem !important;
         }
+      /* Fluent Form Enhanced Styles & Validation Errors */
+      .fluentform .ff-el-is-error .text-danger,
+      .frm-fluent-form .ff-el-is-error .text-danger,
+      .frm-fluent-form .error.text-danger {
+        font-size: 13px !important;
+        margin-top: 5px !important;
+        color: #f56c6c !important;
+        display: block !important;
+        font-weight: 400 !important;
       }
-      
+      .fluentform .ff-el-is-error .ff-el-form-control,
+      .frm-fluent-form .ff-el-is-error .ff-el-form-control,
+      .frm-fluent-form .ff-el-is-error input,
+      .frm-fluent-form .ff-el-is-error textarea {
+        border-color: #f56c6c !important;
+      }
+      .ff-message-success {
+        border: 1px solid #c3e6cb !important;
+        background-color: #d4edda !important;
+        color: #155724 !important;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+        margin-top: 15px !important;
+        padding: 16px 20px !important;
+        position: relative !important;
+        border-radius: 8px !important;
+        font-size: 15px !important;
+        font-weight: 500 !important;
+        line-height: 1.5 !important;
+        text-align: center !important;
+      }
+      .ff_btn_style.ff-working,
+      .ff-btn-submit.ff-working {
+        opacity: 0.75 !important;
+        cursor: not-allowed !important;
+        pointer-events: none !important;
+      }
     </style>
   </head>
   <body class={finalBodyClass}>
@@ -1100,5 +1134,6 @@ accordions.forEach((accordion) => {
         }
       });
     </script>
+    <script is:inline src="/js/fluent-form.js"></script>
   </body>
 </html>

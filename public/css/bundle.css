@@ -35542,7 +35542,7 @@ ul.elementor-nav-menu--dropdown a:hover {
   .frm-fluent-form .ff-t-cell .ff_submit_btn_wrapper_custom {
     align-items: flex-end;
     display: flex;
-    margin: auto 0 0;
+    /* margin: auto 0 0; */
   }
   .frm-fluent-form .ff-t-cell .ff_submit_btn_wrapper_custom.ff-text-center {
     justify-content: center;
