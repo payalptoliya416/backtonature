@@ -64683,3 +64683,7 @@ select:not([size]):not([multiple]) {
 }
 
 
+.elementor-widget-premium-media-wheel {
+  width: 100% !important;
+  max-width: 100% !important;
+}
