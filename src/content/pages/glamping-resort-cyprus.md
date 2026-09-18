@@ -196,7 +196,7 @@ Take a refreshing dip in our scenic pool, surrounded by peaceful nature. Perfect
 
 ![](/wp-content/uploads/2025/05/Kids-Playground-thumbnail.webp)
 
-### 🛝 Kids Playground
+### 🧒 Kids Playground
 
 Let your little adventurers enjoy hours of safe, outdoor fun. Our playground provides children with exciting activities, while parents unwind nearby.
 
