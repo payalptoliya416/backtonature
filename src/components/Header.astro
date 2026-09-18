@@ -190,6 +190,13 @@ const headerRaw = "<header id=\"masthead\" itemscope=\"itemscope\" itemtype=\"ht
   text-align: left !important;
   padding: 2px 10px !important;
 }
+
+  /* Scroll lock when mobile menu is open */
+  html.menu-open,
+  html.menu-open body {
+    overflow: hidden !important;
+    height: 100% !important;
+  }
 </style>
 
 <script is:inline>
@@ -242,6 +249,9 @@ const headerRaw = "<header id=\"masthead\" itemscope=\"itemscope\" itemtype=\"ht
             dropdown.style.display = 'block';
             dropdown.setAttribute('aria-hidden', 'false');
           }
+          // Lock scroll
+          document.documentElement.classList.add('menu-open');
+          document.body.classList.add('menu-open');
         } else {
           toggle.classList.remove('elementor-active');
           toggle.setAttribute('aria-expanded', 'false');
@@ -250,6 +260,9 @@ const headerRaw = "<header id=\"masthead\" itemscope=\"itemscope\" itemtype=\"ht
             dropdown.style.display = 'none';
             dropdown.setAttribute('aria-hidden', 'true');
           }
+          // Unlock scroll
+          document.documentElement.classList.remove('menu-open');
+          document.body.classList.remove('menu-open');
         }
       });
     });
@@ -266,6 +279,9 @@ const headerRaw = "<header id=\"masthead\" itemscope=\"itemscope\" itemtype=\"ht
           d.style.display = 'none';
           d.setAttribute('aria-hidden', 'true');
         });
+        // Unlock scroll
+        document.documentElement.classList.remove('menu-open');
+        document.body.classList.remove('menu-open');
       }
     });
 
@@ -282,6 +298,9 @@ const headerRaw = "<header id=\"masthead\" itemscope=\"itemscope\" itemtype=\"ht
           d.style.display = 'none';
           d.setAttribute('aria-hidden', 'true');
         });
+        // Unlock scroll
+        document.documentElement.classList.remove('menu-open');
+        document.body.classList.remove('menu-open');
       });
     });
   }
