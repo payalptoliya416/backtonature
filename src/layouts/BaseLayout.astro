@@ -570,23 +570,133 @@ const finalBodyClass = bodyClass ? `${defaultBodyClass} ${bodyClass}` : defaultB
         border-color: #ff4d4d !important;
       }
       
-      /* Global Success Message Styling */
+      /* Global Success / Feedback Message Animation */
+      @keyframes formSuccessSlideUp {
+        0% {
+          opacity: 0;
+          transform: translateY(12px) scale(0.98);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+
+      /* Base Success Message Container */
       .ff-message-success,
       div.ff-message-success,
       [id$="_success"] {
-        background-color: #d4edda !important;
-        border: 1px solid #c3e6cb !important;
-        color: #155724 !important;
-        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1) !important;
-        margin-top: 18px !important;
-        padding: 16px 22px !important;
+        background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%) !important;
+        border: 1.5px solid #22c55e !important;
+        border-left: 5px solid #22c55e !important;
+        color: #14532d !important;
+        box-shadow: 0 10px 25px -5px rgba(34, 197, 94, 0.2), 0 8px 10px -6px rgba(34, 197, 94, 0.08) !important;
+        margin-top: 24px !important;
+        padding: 18px 22px !important;
         position: relative !important;
-        border-radius: 10px !important;
+        border-radius: 14px !important;
         font-size: 15px !important;
-        font-weight: 600 !important;
         line-height: 1.5 !important;
-        text-align: center !important;
         display: block !important;
+        animation: formSuccessSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+        box-sizing: border-box !important;
+      }
+
+      /* Rich Message Layout (Icon + Title + Description) */
+      .ff-message-rich .ff-success-inner,
+      .ff-message-rich .ff-error-inner {
+        display: flex !important;
+        align-items: center !important;
+        gap: 16px !important;
+        text-align: left !important;
+      }
+
+      .ff-success-icon {
+        flex-shrink: 0 !important;
+        width: 44px !important;
+        height: 44px !important;
+        border-radius: 50% !important;
+        background: #22c55e !important;
+        color: #ffffff !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        box-shadow: 0 4px 12px rgba(34, 197, 94, 0.35) !important;
+      }
+
+      .ff-success-icon svg {
+        display: block !important;
+      }
+
+      .ff-success-content {
+        flex: 1 !important;
+      }
+
+      .ff-success-title {
+        font-size: 16px !important;
+        font-weight: 700 !important;
+        color: #14532d !important;
+        margin: 0 0 3px 0 !important;
+        line-height: 1.3 !important;
+        font-family: inherit !important;
+      }
+
+      .ff-success-desc {
+        font-size: 14px !important;
+        font-weight: 500 !important;
+        color: #166534 !important;
+        margin: 0 !important;
+        line-height: 1.45 !important;
+        font-family: inherit !important;
+      }
+
+      /* Contact Form Specific Styling (Light Background - Form 1) */
+      #fluentform_1_success,
+      .fluent_form_1 .ff-message-success {
+        background: linear-gradient(135deg, #f0fdf4 0%, #e8fbf0 100%) !important;
+        border: 1.5px solid #22c55e !important;
+        border-left: 5px solid #22c55e !important;
+        color: #14532d !important;
+        box-shadow: 0 12px 28px -6px rgba(34, 197, 94, 0.22), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
+        border-radius: 12px !important;
+        padding: 10px 22px !important;
+        margin-top: 10px !important;
+      }
+
+      /* Global Error Container & Rich Layout */
+      .error.text-danger.ff-error-rich,
+      #fluentform_1_errors .error,
+      #fluentform_1_errors .error.text-danger {
+        background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%) !important;
+        border: 1.5px solid #ef4444 !important;
+        border-left: 5px solid #ef4444 !important;
+        color: #991b1b !important;
+        border-radius: 12px !important;
+        padding: 16px 20px !important;
+        margin-top: 18px !important;
+        box-shadow: 0 6px 20px rgba(239, 68, 68, 0.15) !important;
+        animation: formSuccessSlideUp 0.35s ease-out !important;
+      }
+
+      .ff-error-icon {
+        flex-shrink: 0 !important;
+        width: 38px !important;
+        height: 38px !important;
+        border-radius: 50% !important;
+        background: #ef4444 !important;
+        color: #ffffff !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        box-shadow: 0 4px 10px rgba(239, 68, 68, 0.3) !important;
+      }
+
+      .ff-error-desc {
+        font-size: 14px !important;
+        font-weight: 600 !important;
+        color: #991b1b !important;
+        margin: 0 !important;
+        line-height: 1.45 !important;
       }
 
       /* Footer / Dark Section Specific Success & Error Message */
@@ -594,40 +704,58 @@ const finalBodyClass = bodyClass ? `${defaultBodyClass} ${bodyClass}` : defaultB
       .footer-section .ff-message-success,
       #fluentform_2_success,
       .fluent_form_2 .ff-message-success {
-        background-color: #ffffff !important;
-        border: 2px solid #28a745 !important;
+        background: #ffffff !important;
+        border: 2px solid #22c55e !important;
+        border-left: 5px solid #22c55e !important;
         color: #155724 !important;
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35) !important;
-        font-size: 15px !important;
-        font-weight: 600 !important;
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45) !important;
         border-radius: 12px !important;
-        padding: 16px 24px !important;
+        padding: 16px 22px !important;
         margin-top: 20px !important;
         max-width: 540px !important;
         margin-left: auto !important;
         margin-right: auto !important;
+        animation: formSuccessSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
       }
 
-      .elementor-9623 .error.text-danger,
-      .footer-section .error.text-danger,
-      #fluentform_2_errors .error,
-      .fluent_form_2 .error.text-danger {
+      .elementor-9623 .ff-message-success .ff-success-title,
+      .footer-section .ff-message-success .ff-success-title,
+      #fluentform_2_success .ff-success-title {
+        color: #14532d !important;
+      }
+
+      .elementor-9623 .ff-message-success .ff-success-desc,
+      .footer-section .ff-message-success .ff-success-desc,
+      #fluentform_2_success .ff-success-desc {
+        color: #166534 !important;
+      }
+
+      .elementor-9623 .error.text-danger:not(.ff-error-rich),
+      .footer-section .error.text-danger:not(.ff-error-rich),
+      .fluent_form_2 .error.text-danger:not(.ff-error-rich) {
         color: #ff7b7b !important;
         font-size: 13px !important;
         font-weight: 500 !important;
+        margin-top: 5px !important;
+      }
+
+      /* Inline Field Error States */
+      .ff-el-group.ff-el-is-error .ff-el-form-control {
+        border-color: #ef4444 !important;
+        box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15) !important;
+      }
+
+      .ff-el-group .error.text-danger {
+        color: #dc2626 !important;
+        font-size: 13px !important;
+        font-weight: 500 !important;
+        margin-top: 5px !important;
+        display: block !important;
       }
 
       .ff-errors-in-stack,
       [id$="_errors"] {
         margin-top: 15px !important;
-      }
-      .ff-errors-in-stack .error.text-danger {
-        background: #ffebee !important;
-        color: #c62828 !important;
-        border: 1px solid #ef5350 !important;
-        padding: 12px 18px !important;
-        border-radius: 8px !important;
-        text-align: center !important;
       }
 
       .ff_btn_style.ff-working,
@@ -635,6 +763,19 @@ const finalBodyClass = bodyClass ? `${defaultBodyClass} ${bodyClass}` : defaultB
         opacity: 0.75 !important;
         cursor: not-allowed !important;
         pointer-events: none !important;
+      }
+
+      @media (max-width: 480px) {
+        .ff-message-rich .ff-success-inner,
+        .ff-message-rich .ff-error-inner {
+          flex-direction: column !important;
+          text-align: center !important;
+          gap: 10px !important;
+        }
+        .ff-success-icon,
+        .ff-error-icon {
+          margin: 0 auto !important;
+        }
       }
     </style>
   </head>

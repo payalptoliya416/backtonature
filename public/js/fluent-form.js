@@ -206,9 +206,11 @@
 
         // 4. Success / failure UI helpers
         function handleSuccess(msg) {
+          var isNewsletter = formId === "2";
+          var title = isNewsletter ? "Subscribed Successfully!" : "Message Sent Successfully!";
           var successMsg =
             msg ||
-            (formId === "2"
+            (isNewsletter
               ? "Thank you for subscribing to our newsletter! We'll keep you updated with exclusive offers."
               : "Thank you for your message. We will get in touch with you shortly.");
 
@@ -217,10 +219,15 @@
 
           var successDiv = document.createElement("div");
           successDiv.id = "fluentform_" + formId + "_success";
-          successDiv.className = "ff-message-success";
+          successDiv.className = "ff-message-success ff-message-rich";
           successDiv.setAttribute("role", "status");
           successDiv.setAttribute("aria-live", "polite");
-          successDiv.innerHTML = '<span style="font-weight:700; margin-right:6px;">✓</span> ' + escapeHtml(successMsg);
+          successDiv.innerHTML =
+            '<div class="ff-success-inner">' +
+              '<div class="ff-success-content">' +
+                '<p class="ff-success-desc">' + escapeHtml(successMsg) + '</p>' +
+              '</div>' +
+            '</div>';
 
           if (form.nextSibling) {
             form.parentNode.insertBefore(successDiv, form.nextSibling);
@@ -244,7 +251,7 @@
           try {
             window.dataLayer = window.dataLayer || [];
             window.dataLayer.push({
-              event:           formId === "2" ? "newsletter_subscribe" : "google_lead_submit",
+              event:           isNewsletter ? "newsletter_subscribe" : "google_lead_submit",
               user_email:      emailVal,
               user_phone:      "",
               user_first_name: fnameVal,
@@ -258,18 +265,31 @@
         function handleFailure(errorMsg) {
           var failMsg =
             errorMsg || "Unable to send message right now. Please try again later.";
+          var errorHtml =
+            '<div class="error text-danger ff-error-rich" role="alert">' +
+              '<div class="ff-error-inner">' +
+                '<div class="ff-error-icon">' +
+                  '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">' +
+                    '<circle cx="12" cy="12" r="10"></circle>' +
+                    '<line x1="12" y1="8" x2="12" y2="12"></line>' +
+                    '<line x1="12" y1="16" x2="12.01" y2="16"></line>' +
+                  '</svg>' +
+                '</div>' +
+                '<div class="ff-error-content">' +
+                  '<p class="ff-error-desc">' + escapeHtml(failMsg) + '</p>' +
+                '</div>' +
+              '</div>' +
+            '</div>';
+
           if (globalErrorBox) {
-            globalErrorBox.innerHTML =
-              '<div class="error text-danger" role="alert">' +
-              escapeHtml(failMsg) +
-              "</div>";
+            globalErrorBox.innerHTML = errorHtml;
             globalErrorBox.style.display = "block";
             globalErrorBox.scrollIntoView({ behavior: "smooth", block: "center" });
           } else {
             var errDiv = document.createElement("div");
-            errDiv.className = "error text-danger mt-2";
+            errDiv.className = "error text-danger mt-3";
             errDiv.setAttribute("role", "alert");
-            errDiv.textContent = failMsg;
+            errDiv.innerHTML = errorHtml;
             form.appendChild(errDiv);
           }
         }

@@ -35551,7 +35551,7 @@ ul.elementor-nav-menu--dropdown a:hover {
     justify-content: flex-end;
   }
   .frm-fluent-form .ff-t-cell .ff_submit_btn_wrapper_custom button {
-    /* margin-bottom: 20px; */
+    margin-bottom: 20px;
   }
 }
 @media (max-width: 768px) {
