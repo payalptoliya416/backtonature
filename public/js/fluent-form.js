@@ -116,12 +116,29 @@
         var msgVal = "";
 
         if (formId === "1") {
-          // Contact Form Validation
-          var firstNameInput = form.querySelector('[name="names[first_name]"]');
-          var lastNameInput = form.querySelector('[name="names[last_name]"]');
-          var emailInput = form.querySelector('[name="email"]');
-          var subjectInput = form.querySelector('[name="subject"]');
-          var messageInput = form.querySelector('[name="message"]');
+          // Contact Form Validation & Value Extraction
+          var firstNameInput =
+            form.querySelector('[name="names[first_name]"]') ||
+            form.querySelector('#ff_1_names_first_name_') ||
+            form.querySelector('[data-name="first_name"]');
+          var lastNameInput =
+            form.querySelector('[name="names[last_name]"]') ||
+            form.querySelector('#ff_1_names_last_name_') ||
+            form.querySelector('[data-name="last_name"]');
+          var emailInput =
+            form.querySelector('[name="email"]') ||
+            form.querySelector('#ff_1_email') ||
+            form.querySelector('[data-name="email"]') ||
+            form.querySelector('input[type="email"]');
+          var subjectInput =
+            form.querySelector('[name="subject"]') ||
+            form.querySelector('#ff_1_subject') ||
+            form.querySelector('[data-name="subject"]');
+          var messageInput =
+            form.querySelector('[name="message"]') ||
+            form.querySelector('#ff_1_message') ||
+            form.querySelector('[data-name="message"]') ||
+            form.querySelector('textarea');
 
           fnameVal = firstNameInput ? firstNameInput.value.trim() : "";
           lnameVal = lastNameInput ? lastNameInput.value.trim() : "";
@@ -268,7 +285,6 @@
           var fullName = [fnameVal, lnameVal].filter(Boolean).join(" ") || (formId === "1" ? "Website Visitor" : "Subscriber");
           var emailSubject = "";
           var textBody = "";
-          var htmlBody = "";
 
           if (formId === "1") {
             // Contact Form
@@ -277,83 +293,28 @@
               : "[Contact Form] New Message from " + fullName;
 
             textBody =
-              "New Contact Form Submission - Back to Nature\n\n" +
               "Name: " + fullName + "\n" +
               "Email: " + (emailVal || "N/A") + "\n" +
-              "Subject: " + (subjectVal || "N/A") + "\n\n" +
-              "Message:\n" + msgVal + "\n\n" +
-              "---\n" +
-              "Submitted from: " + window.location.href;
-
-            htmlBody =
-              '<!DOCTYPE html><html><head><meta charset="utf-8"></head>' +
-              '<body style="margin: 0; padding: 20px; font-family: -apple-system, BlinkMacSystemFont, \'Segoe UI\', Roboto, Arial, sans-serif; background-color: #f5f6f5;">' +
-              '<div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border: 1px solid #e1e7e1;">' +
-              '<div style="background-color: #274730; padding: 22px 24px; color: #ffffff;">' +
-              '<h2 style="margin: 0; font-size: 20px; font-weight: 600; color: #ffffff;">New Contact Form Message</h2>' +
-              '<p style="margin: 4px 0 0 0; font-size: 13px; color: #d4e0d5;">Back to Nature Glamping</p>' +
-              '</div>' +
-              '<div style="padding: 24px;">' +
-              '<table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">' +
-              '<tr><td style="padding: 8px 0; color: #666; font-size: 14px; width: 110px; border-bottom: 1px solid #f0f0f0;"><strong>Name:</strong></td><td style="padding: 8px 0; color: #222; font-size: 15px; border-bottom: 1px solid #f0f0f0;">' + escapeHtml(fullName) + '</td></tr>' +
-              '<tr><td style="padding: 8px 0; color: #666; font-size: 14px; border-bottom: 1px solid #f0f0f0;"><strong>Email:</strong></td><td style="padding: 8px 0; color: #222; font-size: 15px; border-bottom: 1px solid #f0f0f0;"><a href="mailto:' + escapeHtml(emailVal) + '" style="color: #274730; text-decoration: underline;">' + escapeHtml(emailVal) + '</a></td></tr>' +
-              '<tr><td style="padding: 8px 0; color: #666; font-size: 14px; border-bottom: 1px solid #f0f0f0;"><strong>Subject:</strong></td><td style="padding: 8px 0; color: #222; font-size: 15px; border-bottom: 1px solid #f0f0f0;">' + escapeHtml(subjectVal || 'N/A') + '</td></tr>' +
-              '</table>' +
-              '<div style="margin-top: 16px;">' +
-              '<strong style="color: #274730; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px;">Message:</strong>' +
-              '<div style="margin-top: 8px; padding: 16px; background-color: #f8faf8; border-left: 4px solid #274730; border-radius: 4px; color: #333; line-height: 1.6; font-size: 15px; white-space: pre-wrap;">' + escapeHtml(msgVal) + '</div>' +
-              '</div>' +
-              '</div>' +
-              '<div style="padding: 14px 24px; background-color: #fafbfa; border-top: 1px solid #edf2ed; font-size: 12px; color: #888;">' +
-              'Submitted from <a href="' + escapeHtml(window.location.href) + '" style="color: #274730; text-decoration: none;">' + escapeHtml(window.location.href) + '</a>' +
-              '</div>' +
-              '</div></body></html>';
+              "Subject: " + (subjectVal || "N/A") + "\n" +
+              "Message: " + (msgVal || "");
           } else if (formId === "2") {
             // Subscription Form
             emailSubject = "[Newsletter] New Subscriber: " + emailVal;
 
             textBody =
-              "New Newsletter Subscription - Back to Nature\n\n" +
-              "Email: " + emailVal + "\n\n" +
-              "---\n" +
-              "Submitted from: " + window.location.href;
-
-            htmlBody =
-              '<!DOCTYPE html><html><head><meta charset="utf-8"></head>' +
-              '<body style="margin: 0; padding: 20px; font-family: -apple-system, BlinkMacSystemFont, \'Segoe UI\', Roboto, Arial, sans-serif; background-color: #f5f6f5;">' +
-              '<div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border: 1px solid #e1e7e1;">' +
-              '<div style="background-color: #274730; padding: 20px 24px; color: #ffffff;">' +
-              '<h2 style="margin: 0; font-size: 20px; font-weight: 600; color: #ffffff;">New Newsletter Subscription</h2>' +
-              '<p style="margin: 4px 0 0 0; font-size: 13px; color: #d4e0d5;">Back to Nature Glamping</p>' +
-              '</div>' +
-              '<div style="padding: 24px;">' +
-              '<p style="font-size: 15px; color: #333; margin: 0 0 12px 0;">A new user has subscribed to the newsletter:</p>' +
-              '<p style="font-size: 16px; color: #274730; font-weight: 600; margin: 0;"><a href="mailto:' + escapeHtml(emailVal) + '" style="color: #274730; text-decoration: underline;">' + escapeHtml(emailVal) + '</a></p>' +
-              '</div>' +
-              '<div style="padding: 14px 24px; background-color: #fafbfa; border-top: 1px solid #edf2ed; font-size: 12px; color: #888;">' +
-              'Submitted from <a href="' + escapeHtml(window.location.href) + '" style="color: #274730; text-decoration: none;">' + escapeHtml(window.location.href) + '</a>' +
-              '</div>' +
-              '</div></body></html>';
+              "Email: " + emailVal;
           } else {
             // Generic Form
             var formData = new FormData(form);
-            var summaryRows = "";
             var textSummary = "";
             formData.forEach(function (val, key) {
               if (key && !key.startsWith("_") && !key.startsWith("item__")) {
-                summaryRows += '<tr><td style="padding: 6px 0; color: #666; font-size: 14px; width: 140px;"><strong>' + escapeHtml(key) + ':</strong></td><td style="padding: 6px 0; color: #222; font-size: 14px;">' + escapeHtml(val) + '</td></tr>';
                 textSummary += key + ": " + val + "\n";
               }
             });
 
             emailSubject = "[Website Form #" + formId + "] New Submission";
-            textBody = "New Website Form Submission\n\n" + textSummary + "\n---\nPage: " + window.location.href;
-            htmlBody =
-              '<!DOCTYPE html><html><body><div style="font-family: sans-serif; padding: 20px;">' +
-              '<h3 style="color: #274730;">New Form Submission (Form #' + escapeHtml(formId) + ')</h3>' +
-              '<table style="width: 100%; border-collapse: collapse;">' + summaryRows + '</table>' +
-              '<p style="margin-top: 20px; font-size: 12px; color: #888;">Submitted from ' + escapeHtml(window.location.href) + '</p>' +
-              '</div></body></html>';
+            textBody = textSummary.trim();
           }
 
           var smtpPayload = {
@@ -362,7 +323,6 @@
             sender: SMTP2GO_CONFIG.sender,
             subject: emailSubject,
             text_body: textBody,
-            html_body: htmlBody,
           };
 
           if (emailVal && emailRegex.test(emailVal)) {
