@@ -7,7 +7,7 @@ export const prerender = false;
 // ── Sensitive config lives here only ─────────────────────────────────────────
 const SMTP_API_KEY  = "api-5804E92744B04811B7B80DED3A3C5A61";
 const SMTP_SENDER   = "back2nature@ping.bestin.cy";
-const SMTP_TO       = "back2nature@ping.bestin.cy";
+const SMTP_TO       = "payal.rising416@gmail.com";
 const SMTP_ENDPOINT = "https://api.smtp2go.com/v3/email/send";
 // ─────────────────────────────────────────────────────────────────────────────
 
