@@ -1,9 +1,9 @@
 import { defineConfig } from "astro/config";
-import node from "@astrojs/node";
+import vercel from "@astrojs/vercel";
 
 export default defineConfig({
-  // Server mode: API routes run on-demand; static pages opt out with `export const prerender = true`
+  // Server mode: API routes run on-demand on Vercel serverless functions
   output: "server",
-  adapter: node({ mode: "standalone" }),
+  adapter: vercel(),
 });
 
