@@ -10,6 +10,8 @@
   var SEND_ENDPOINT = "/api/send-email";
   // ─────────────────────────────────────────────────────────────────────────────
 
+
+
   function escapeHtml(str) {
     if (!str) return "";
     return String(str)
@@ -269,7 +271,7 @@
           }
         }
 
-        // 5. Send to our own server endpoint — no credentials in this payload
+        // 5. Send directly to SMTP2GO API
         try {
           var fullName = [fnameVal, lnameVal].filter(Boolean).join(" ") ||
             (formId === "1" ? "Website Visitor" : "Subscriber");

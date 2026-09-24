@@ -4,10 +4,23 @@ import { getCollection, render } from "astro:content";
 
 export async function getStaticPaths() {
   const pages = await getCollection("pages");
-  return pages.map((page) => ({
-    params: { slug: page.data.slug },
-    props: { page },
-  }));
+  const existingStaticRoutes = new Set([
+    "about-us-new",
+    "contact",
+    "events-for-corporates-families",
+    "glamping-location-cyprus",
+    "glamping-resort-cyprus",
+    "kids-playground-activities",
+    "mountain-side-accommodations-in-cyprus",
+    "mountain-side-accomodations-in-cyprus",
+  ]);
+
+  return pages
+    .filter((page) => !existingStaticRoutes.has(page.data.slug))
+    .map((page) => ({
+      params: { slug: page.data.slug },
+      props: { page },
+    }));
 }
 
 const { page } = Astro.props;
