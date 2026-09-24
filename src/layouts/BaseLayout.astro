@@ -550,36 +550,86 @@ const finalBodyClass = bodyClass ? `${defaultBodyClass} ${bodyClass}` : defaultB
           max-width: 100% !important;
           padding: 0.8rem !important;
         }
+      }
+
       /* Fluent Form Enhanced Styles & Validation Errors */
       .fluentform .ff-el-is-error .text-danger,
       .frm-fluent-form .ff-el-is-error .text-danger,
       .frm-fluent-form .error.text-danger {
         font-size: 13px !important;
-        margin-top: 5px !important;
-        color: #f56c6c !important;
+        margin-top: 6px !important;
+        color: #ff4d4d !important;
         display: block !important;
-        font-weight: 400 !important;
+        font-weight: 500 !important;
+        text-align: left !important;
       }
       .fluentform .ff-el-is-error .ff-el-form-control,
       .frm-fluent-form .ff-el-is-error .ff-el-form-control,
       .frm-fluent-form .ff-el-is-error input,
       .frm-fluent-form .ff-el-is-error textarea {
-        border-color: #f56c6c !important;
+        border-color: #ff4d4d !important;
       }
-      .ff-message-success {
-        border: 1px solid #c3e6cb !important;
+      
+      /* Global Success Message Styling */
+      .ff-message-success,
+      div.ff-message-success,
+      [id$="_success"] {
         background-color: #d4edda !important;
+        border: 1px solid #c3e6cb !important;
         color: #155724 !important;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
-        margin-top: 15px !important;
-        padding: 16px 20px !important;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1) !important;
+        margin-top: 18px !important;
+        padding: 16px 22px !important;
         position: relative !important;
-        border-radius: 8px !important;
+        border-radius: 10px !important;
         font-size: 15px !important;
-        font-weight: 500 !important;
+        font-weight: 600 !important;
         line-height: 1.5 !important;
         text-align: center !important;
+        display: block !important;
       }
+
+      /* Footer / Dark Section Specific Success & Error Message */
+      .elementor-9623 .ff-message-success,
+      .footer-section .ff-message-success,
+      #fluentform_2_success,
+      .fluent_form_2 .ff-message-success {
+        background-color: #ffffff !important;
+        border: 2px solid #28a745 !important;
+        color: #155724 !important;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35) !important;
+        font-size: 15px !important;
+        font-weight: 600 !important;
+        border-radius: 12px !important;
+        padding: 16px 24px !important;
+        margin-top: 20px !important;
+        max-width: 540px !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+      }
+
+      .elementor-9623 .error.text-danger,
+      .footer-section .error.text-danger,
+      #fluentform_2_errors .error,
+      .fluent_form_2 .error.text-danger {
+        color: #ff7b7b !important;
+        font-size: 13px !important;
+        font-weight: 500 !important;
+      }
+
+      .ff-errors-in-stack,
+      [id$="_errors"] {
+        margin-top: 15px !important;
+      }
+      .ff-errors-in-stack .error.text-danger {
+        background: #ffebee !important;
+        color: #c62828 !important;
+        border: 1px solid #ef5350 !important;
+        padding: 12px 18px !important;
+        border-radius: 8px !important;
+        text-align: center !important;
+      }
+
       .ff_btn_style.ff-working,
       .ff-btn-submit.ff-working {
         opacity: 0.75 !important;

@@ -155,7 +155,10 @@
 
         } else if (formId === "2") {
           // Newsletter / subscription form
-          var emailInput2 = form.querySelector('[name="email"]');
+          var emailInput2 =
+            form.querySelector('[name="email"]') ||
+            form.querySelector("#ff_2_email") ||
+            form.querySelector('input[type="email"]');
           emailVal = emailInput2 ? emailInput2.value.trim() : "";
 
           if (emailInput2) {
@@ -206,7 +209,7 @@
           var successMsg =
             msg ||
             (formId === "2"
-              ? "Thanks for subscribing!"
+              ? "Thank you for subscribing to our newsletter! We'll keep you updated with exclusive offers."
               : "Thank you for your message. We will get in touch with you shortly.");
 
           var prev = document.getElementById("fluentform_" + formId + "_success");
@@ -217,7 +220,7 @@
           successDiv.className = "ff-message-success";
           successDiv.setAttribute("role", "status");
           successDiv.setAttribute("aria-live", "polite");
-          successDiv.textContent = successMsg;
+          successDiv.innerHTML = '<span style="font-weight:700; margin-right:6px;">✓</span> ' + escapeHtml(successMsg);
 
           if (form.nextSibling) {
             form.parentNode.insertBefore(successDiv, form.nextSibling);
@@ -241,7 +244,7 @@
           try {
             window.dataLayer = window.dataLayer || [];
             window.dataLayer.push({
-              event:           "google_lead_submit",
+              event:           formId === "2" ? "newsletter_subscribe" : "google_lead_submit",
               user_email:      emailVal,
               user_phone:      "",
               user_first_name: fnameVal,
@@ -271,7 +274,7 @@
           }
         }
 
-        // 5. Send directly to SMTP2GO API
+        // 5. Send to server endpoint (/api/send-email)
         try {
           var fullName = [fnameVal, lnameVal].filter(Boolean).join(" ") ||
             (formId === "1" ? "Website Visitor" : "Subscriber");
@@ -290,8 +293,11 @@
               "Message: " + (msgVal      || "");
 
           } else if (formId === "2") {
-            emailSubject = "[Newsletter] New Subscriber: " + emailVal;
-            textBody     = "Email: " + emailVal;
+            emailSubject = "[Newsletter Subscription] New Subscriber: " + emailVal;
+            textBody =
+              "You have received a new newsletter subscription from Back to Nature website.\n\n" +
+              "Subscriber Email: " + emailVal + "\n" +
+              "Form: Footer Newsletter / Subscription Form";
 
           } else {
             var formData    = new FormData(form);
